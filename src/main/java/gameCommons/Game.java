@@ -10,19 +10,9 @@ public class Game implements IEnvironment, IFrog {
 
     public Frog frog = new Frog(new int[2] , 1);
     public Plateau plateau = new Plateau();
-    public Voie[] voies = plateau.getVoie();
     public boolean victoire = false;
 
-    @Override
-    public void apparition_voiture(){
-        for(int i=0; i<voies.length; i++){
-            if(voies[i].passage()){
-                var nouvelle_voie = voies[i].getVehicule();
-                nouvelle_voie[0] = 1;
-                voies[i].setVehicule(nouvelle_voie);
-            }
-        }
-    }
+
 
     @Override
     public void deplacementFrog(Direction dir){

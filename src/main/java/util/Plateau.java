@@ -5,12 +5,12 @@ import java.util.Arrays;
 
 
 public class Plateau {
-    private final Case[][] plateau;     //Plateau du jeu, etat des cases.
-    private Voie[] voie;      //Voies du jeu.
-    final int hauteur = 12; //dimension du plateau.
-    final int largeur;
+    private final util.Case[][] plateau;     //Plateau du jeu, etat des cases.
+    private util.Voie[] voie;      //Voies du jeu.
+    int hauteur = 12;       //dimension du plateau.
     int largeurMin = 10;
     int largeurMax = 30;
+    int largeur;
 
     //private Jeu;
 
@@ -20,22 +20,22 @@ public class Plateau {
 
         System.out.println(largeur);
 
-        this.plateau = new Case[this.hauteur][largeur];     //Initialisation plateau de Case.
-        this.voie = new Voie[this.hauteur - 2];     //Initialisation des voies.
+        this.plateau = new util.Case[this.hauteur][largeur];     //Initialisation plateau de Case.
+        this.voie = new util.Voie[this.hauteur - 2];     //Initialisation des voies.
 
         for(int i = 0; i < this.hauteur; i++)       //Cretion des cases du plateau avec leur etat.
         {
             for(int j = 0; j < largeur; j++)
             {
                 if(i == 0 || i == hauteur - 1)
-                    this.plateau[i][j] = new Case(1);
+                    this.plateau[i][j] = new util.Case(1);
                 else
-                    this.plateau[i][j] = new Case(0);
+                    this.plateau[i][j] = new util.Case(0);
             }
 
             if(i > 0 && i < this.hauteur - 1)
             {
-                this.voie[i - 1] = new Voie("Voie " + i, 1, largeur);
+                this.voie[i - 1] = new util.Voie("Voie " + i, 1, largeur);
             }
         }
 
@@ -45,26 +45,14 @@ public class Plateau {
     public void AfficherPlateau()
     {
         /*
-        * AfficherPlateau affiche les etats des cases du plateau.
-        * Return (void).*/
-        for (Case[] tab: this.plateau) {
-            for (Case s: tab) {
+         * AfficherPlateau affiche les etats des cases du plateau.
+         * Return (void).*/
+        for (util.Case[] tab: this.plateau) {
+            for (util.Case s: tab) {
                 System.out.print(s.getState() + "\t");
             }
             System.out.println("\n");
         }
-    }
-
-    public int getLargeur() {
-        return largeur;
-    }
-
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    public Voie[] getVoie() {
-        return voie;
     }
 
     public void AfficherVoie()
@@ -83,7 +71,7 @@ public class Plateau {
         /*
          * unTour fait avancer la parie d'un coup d'horloge en appellant les voies une a une.
          * Return (void).*/
-        for (Voie value : this.voie) value.unTourVoie();
+        for (util.Voie value : this.voie) value.unTourVoie();
     }
 
     public static void main(String[] args) {
@@ -104,4 +92,11 @@ public class Plateau {
 
     }
 
+    public int getHauteur() {
+        return hauteur;
+    }
+
+    public int getLargeur() {
+        return largeur;
+    }
 }

@@ -1,16 +1,18 @@
 package util;
 
-public class Voie {
-    //Rajouter la vitesse comme variable d'instance
+public class Voie implements Velo, Voiture{
     private final String name;
     private final int level;
     private int vehicule[];     //position des vehicule dans la voie.
+    private int flag = (int)(Math.random() + 1);
+    private int vehiculeInterface[];
 
     public Voie(String name, int level, int taille)
     {
         this.name = name;
         this.level = level;
         this.vehicule = new int[taille];
+        this.vehiculeInterface = new int[]{idVelo, idVoiture};
     }
 
     public String getName()
@@ -37,11 +39,7 @@ public class Voie {
         return this.vehicule;
     }
 
-    public void setVehicule(int[] vehicule) {
-        this.vehicule = vehicule;
-    }
-
-    public Boolean passage()
+    private Boolean passage()
     {
         /*
          * passage indique si un nouveau vehicul apparait dans la voie.
@@ -51,24 +49,62 @@ public class Voie {
         return d < 0.2;
     }
 
+    public void avancerVelo(int i)
+    {
+        if(i == this.vehicule.length - 1)       //A modifier.
+        {this.vehicule[i] = 0;}
+        else
+        {
+            for(int k = tailleVelo; k > 0; k--)
+            {
+                this.vehicule[i + k] = this.vehicule[i + k - 1];
+            }
+
+            this.vehicule[i] = 0;
+        }
+
+    }
+
+    public void avancerVoiture(int i)
+    {
+        if (i == this.vehicule.length - 1)      //A modifier.
+        {this.vehicule[i] = 0;}
+        else if(i == this.vehicule.length - 2)
+        {
+            this.vehicule[i] = 0;
+            this.vehicule[i + 1] = 2;
+        }
+        else
+        {
+            for(int k = tailleVoiture; k > 0; k--)
+            {
+                this.vehicule[i + k] = this.vehicule[i + k - 1];
+            }
+
+            this.vehicule[i] = 0;
+        }
+    }
+
     private void avancer(int debut)
     {
         /*
          * avaner permet de mettre a jour la voie en avancant les vehicules d'une case.
          * Renvoie (void).*/
+
         for(int i = debut; i < this.vehicule.length; i++)       //Avancer vehicule existant.
         {
-            if(this.vehicule[i] != 0)
-                if(i == this.vehicule.length - 1)
-                    this.vehicule[i] = 0;
-                else
-                {
-                    this.vehicule[i + 1] = this.vehicule[i];
-                    this.vehicule[i] = 0;
-                    i++;
-                }
+            switch (vehicule[i])
+            {
+                case idVelo:
+                    avancerVelo(i);
+                    i += tailleVelo;
+                    break;
+                case idVoiture:
+                    avancerVoiture(i);
+                    i += tailleVoiture;
+                    break;
 
-
+            }
         }
     }
 
@@ -77,9 +113,22 @@ public class Voie {
         /*
          * unTourVoie permet de faire avance la partie d'un coup d'horloge en appelant les methodes de mises a jour de la classe.
          * Renvoie (void).*/
-        if(this.vehicule[0] == 0 && passage())
+        if(this.flag == 1)
         {
-            this.vehicule[0] = 1;
+            avancer(0);
+            this.vehicule[0] = 0;
+            this.flag -= 1;
+        }
+        else if(this.flag == 2)
+        {
+            avancer(0);
+            this.vehicule[0] = this.vehicule[1];
+            this.flag -= 1;
+        }
+        else if(this.vehicule[0] == 0 && passage())
+        {
+            this.flag = (int)(Math.random() * this.vehiculeInterface.length) + 1;
+            this.vehicule[0] = this.vehiculeInterface[flag - 1];
             avancer(1);
         }
         else
@@ -87,5 +136,4 @@ public class Voie {
 
 
     }
-
 }
