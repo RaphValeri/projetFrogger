@@ -3,7 +3,7 @@ import util.Direction;
 import util.Plateau;
 import util.Voie;
 import frog.Frog;
-
+import graphicalElements.App;
 
 public class Game implements IEnvironment, IFrog {
     //Instentiation des objets utiles pour le jeu : un plateau, une grenouille...
@@ -11,6 +11,7 @@ public class Game implements IEnvironment, IFrog {
     public Frog frog = new Frog(new int[2] , 1);
     public Plateau plateau = new Plateau();
     public boolean victoire = false;
+
 
 
 
@@ -26,16 +27,16 @@ public class Game implements IEnvironment, IFrog {
         int y_lim = plateau.getHauteur()-1;
 
         switch(dir){
-            case up:
+            case UP:
                 if(0<=y-1) frog.setPosition(x, y-1);
                 break;
-            case down:
+            case DOWN:
                 if(y+1<=y_lim) frog.setPosition(x, y+1);
                 break;
-            case left:
+            case LEFT:
                 if(0<=x-1) frog.setPosition(x-1, y);
                 break;
-            case right:
+            case RIGHT:
                 if(x+1<=x_lim)frog.setPosition(x+1, y);
                 break;
             default:
