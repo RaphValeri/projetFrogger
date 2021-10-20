@@ -79,7 +79,7 @@ public class App extends Application {
         }
 
         Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",W/6, H/10, false, false);
-
+        Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
 
 
 
@@ -110,12 +110,13 @@ public class App extends Application {
                     int y = (int) P.get(i)[1].doubleValue();
 
                     gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
-                    gc.fillRect(
-                            x,
-                            y,
-                            W / 6,
-                            H / 10
-                    );
+                    //gc.fillRect(
+                            //x,
+                            //y,
+                            //W / 6,
+                            //H / 10
+                    //);
+                    gc.drawImage(car_img, x, y, d_x, d_y);
                     if((frog.getPosition()[0] - d_x <= x ) & ( x <=(frog.getPosition()[0] ) & y==frog.getPosition()[1])) {
                         System.out.println("GAME OVER !!!!");
                     }
