@@ -20,11 +20,15 @@ import frog.Frog;
 public class App extends Application {
 
     // canvas dimensions
-    public static final int W = 500;
-    public static final int H = 500;
+    public static final int W = 500; //largeur de la route
+    public static final int H = 500; //hauteur de la route
+
+    // Dimension d'une case sur une voie
+    int d_x = W/6;
+    int d_y = H/10;
 
     //Game instance
-    public Game game = new Game(W/6, H/10, H, W);
+    public Game game = new Game(d_x, d_y, H, W);
     public Frog frog = game.frog;
 
     // array to browse through
@@ -75,7 +79,7 @@ public class App extends Application {
         }
 
         Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",W/6, H/10, false, false);
-
+        Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
 
 
 
@@ -96,20 +100,26 @@ public class App extends Application {
                                 String code = e.getCode().toString();
                                 System.out.println("Key" + " "+ code + " is pressed");
 
-                                // only add once... prevent duplicates
+                                // On fait évoluer la position de la grenouille
                                 game.deplacementFrog(Direction.valueOf(code));
                             }
                         });
 
                 for (int i=0; i < P.size(); i++){
-                    //gc.clearRect(0, 0, 512,512);
+                    int x = (int) P.get(i)[0].doubleValue();
+                    int y = (int) P.get(i)[1].doubleValue();
+
                     gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
-                    gc.fillRect(
-                            P.get(i)[0].doubleValue(),
-                            P.get(i)[1].doubleValue(),
-                            W / 6,
-                            H / 10
-                    );
+                    //gc.fillRect(
+                            //x,
+                            //y,
+                            //W / 6,
+                            //H / 10
+                    //);
+                    gc.drawImage(car_img, x, y, d_x, d_y);
+                    if((frog.getPosition()[0] - d_x <= x ) & ( x <=(frog.getPosition()[0] ) & y==frog.getPosition()[1])) {
+                        System.out.println("GAME OVER !!!!");
+                    }
                 }
             }
         };
