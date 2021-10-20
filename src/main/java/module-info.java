@@ -14,4 +14,6 @@ module com.example.projetfrogger {
     opens TEST to org.junit.platform.commons;
 
     exports gameCommons;
+    exports frog;
+    exports util;
 }

@@ -11,9 +11,17 @@ public class Game implements IEnvironment, IFrog {
     public Frog frog = new Frog(new int[2] , 1);
     public Plateau plateau = new Plateau();
     public boolean victoire = false;
+    public int d_x;
+    public int d_y;
+    public int H;
+    public int W;
 
-
-
+    public Game(int dx, int dy, int height, int W){
+        this.d_x = dx;
+        this.d_y = dy;
+        this.W = W;
+        this.H = height;
+    }
 
     @Override
     public void deplacementFrog(Direction dir){
@@ -23,21 +31,21 @@ public class Game implements IEnvironment, IFrog {
         int x = frog.getPosition()[0];
         int y = frog.getPosition()[1];
 
-        int x_lim = plateau.getLargeur()-1;
-        int y_lim = plateau.getHauteur()-1;
+        int x_lim = this.W; // Changer les limites avec les dimensions de la fenetre
+        int y_lim = this.H;
 
         switch(dir){
             case UP:
-                if(0<=y-1) frog.setPosition(x, y-1);
+                if(0<=y-d_y) frog.setPosition(x, y-d_y);
                 break;
             case DOWN:
-                if(y+1<=y_lim) frog.setPosition(x, y+1);
+                if(y+d_y<=y_lim) frog.setPosition(x, y+d_y);
                 break;
             case LEFT:
-                if(0<=x-1) frog.setPosition(x-1, y);
+                if(-d_x/2<=x-d_x) frog.setPosition(x-d_x, y);
                 break;
             case RIGHT:
-                if(x+1<=x_lim)frog.setPosition(x+1, y);
+                if(x+d_x<=x_lim)frog.setPosition(x+d_x, y);
                 break;
             default:
                 break;

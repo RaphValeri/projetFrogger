@@ -3,24 +3,29 @@ package graphicalElements;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.beans.property.*;
+import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import util.Direction;
 import gameCommons.Game;
+import frog.Frog;
 
 public class App extends Application {
 
-    //Game instance
-    public Game game = new Game();
     // canvas dimensions
     public static final int W = 500;
     public static final int H = 500;
+
+    //Game instance
+    public Game game = new Game(W/6, H/10, H, W);
+    public Frog frog = game.frog;
 
     // array to browse through
     public static int[][] T = new int[10][10];
@@ -37,6 +42,16 @@ public class App extends Application {
     @Override public void start(Stage stage) {
         stage.setTitle("FROGGER");
         stage.setResizable(false);
+
+        final Canvas canvas = new Canvas(W, H+H/5);
+
+        Group root = new Group();
+        Scene theScene = new Scene( root );
+        stage.setScene( theScene );
+        root.getChildren().add( canvas );
+
+        //set the position of frog
+        frog.setPosition(W/2-W/12, H+H/10);
 
         for (int i = 0; i < T.length; i++) {
             DoubleProperty x  = new SimpleDoubleProperty();
@@ -64,7 +79,6 @@ public class App extends Application {
 
 
 
-        final Canvas canvas = new Canvas(W, H+H/5);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -74,8 +88,22 @@ public class App extends Application {
                 gc.fillRect(0, H/10, W, H);
                 gc.setFill(Color.FORESTGREEN);
 
-                gc.drawImage(frog_img, W/2-W/12, H+H/10);
+                theScene.setOnKeyPressed(
+                        new EventHandler<KeyEvent>()
+                        {
+                            public void handle(KeyEvent e)
+                            {
+                                String code = e.getCode().toString();
+                                System.out.println("Key" + " "+ code + " is pressed");
+
+                                // only add once... prevent duplicates
+                                game.deplacementFrog(Direction.valueOf(code));
+                            }
+                        });
+
                 for (int i=0; i < P.size(); i++){
+                    //gc.clearRect(0, 0, 512,512);
+                    gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
                     gc.fillRect(
                             P.get(i)[0].doubleValue(),
                             P.get(i)[1].doubleValue(),
@@ -86,7 +114,7 @@ public class App extends Application {
             }
         };
 
-        stage.setScene(new Scene(new Group(canvas)));
+        //stage.setScene(new Scene(new Group(canvas)));
         stage.show();
         timer.start();
 
