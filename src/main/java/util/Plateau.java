@@ -1,7 +1,10 @@
 package util;
 
-import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.io.*;
+import java.nio.file.*;
 
 
 public class Plateau {
@@ -66,6 +69,60 @@ public class Plateau {
         }
     }
 
+    public int enregistrerPartie(String file) {
+        /*
+         * AfficherVoie affiche le nom de la voie et les positions des vehicules.
+         * Return (void).*/
+
+        try {
+            FileWriter fw = new FileWriter(file, false);
+
+            for (util.Voie value : this.voie) {
+                for(int i = 0; i < largeur; ++i)
+                {
+
+                    fw.write(Integer.toString(value.getVehicule()[i]));
+                }
+
+
+            }
+
+            fw.close();
+
+        } catch (IOException e) {
+            System.out.println("e.toString()");
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public void recupererPartie(String file)
+    {
+        Path fr = Paths.get(file);
+        InputStream input = null;
+        try {
+            input = Files.newInputStream(fr);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            int coefVehicule;
+
+            for (Voie value : voie) {
+                for (int j = 0; j < this.largeur; j++) {
+                    coefVehicule = reader.read();
+                    value.setVehicleCoef(coefVehicule - 48, j);
+                }
+            }
+
+            input.close();
+
+
+
+        } catch (IOException e) {
+            System.out.println("Message " + e);
+        }
+    }
+
     public void unTour()
     {
         /*
@@ -89,8 +146,35 @@ public class Plateau {
             p1.AfficherVoie();
         }
 
+        String file = "test.txt";
 
+        int j = p1.enregistrerPartie(file);
+
+        System.out.println(j);
+
+        for(int i = 10; i < 15; i++)
+        {
+            p1.unTour();
+            System.out.println("");
+            System.out.println("Tour " + i);
+            p1.AfficherVoie();
+        }
+
+        p1.recupererPartie(file);
+        p1.AfficherVoie();
+
+        for(int i = 15; i < 20; i++)
+        {
+            p1.unTour();
+            System.out.println("");
+            System.out.println("Tour " + i);
+            p1.AfficherVoie();
+        }
     }
+
+
+
+
 
     public int getHauteur() {
         return hauteur;

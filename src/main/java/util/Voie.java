@@ -39,6 +39,11 @@ public class Voie implements Velo, Voiture{
         return this.vehicule;
     }
 
+    public void setVehicleCoef(int coef, int i)
+    {
+        this.vehicule[i] = coef;
+    }
+
     private Boolean passage()
     {
         /*
