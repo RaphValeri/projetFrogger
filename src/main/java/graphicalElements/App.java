@@ -35,10 +35,10 @@ public class App extends Application {
     public Game game = new Game(d_x, d_y, H, W);
     public Frog frog = game.frog;
 
-    //Images et elements graphiques
-    Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",W/6, H/10, false, false);
+    //Images
+    Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",d_x, d_y, false, false);
     Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
-    Label label_G0 = new Label("GAME OVER ");
+
     // array to browse through
     public static int[][] T = new int[10][10];
 
@@ -54,7 +54,7 @@ public class App extends Application {
         stage.setTitle("FROGGER");
         stage.setResizable(false);
 
-        final Canvas canvas = new Canvas(W, H+H/5);
+        final Canvas canvas = new Canvas(W, H+2*d_y);
 
         Group root = new Group();
         Scene theScene = new Scene( root );
@@ -62,7 +62,7 @@ public class App extends Application {
         root.getChildren().add( canvas );
 
         //On place la grenouille au point de départ
-        frog.setPosition(W/2-W/12, H+H/10);
+        frog.setPosition(W/2-d_x/2, H+d_y);
 
         for (int i = 0; i < T.length; i++) {
 
@@ -73,13 +73,13 @@ public class App extends Application {
             //Création des voitures
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.seconds(0),
-                            new KeyValue(x, - W / 6),
-                            new KeyValue(y, (i+1) * H / 10)
+                            new KeyValue(x, - d_x),
+                            new KeyValue(y, (i+1) * d_y)
                     ),
 
                     new KeyFrame(Duration.seconds(i + 3),
                             new KeyValue(x, W),
-                            new KeyValue(y, (i+1) * H / 10)
+                            new KeyValue(y, (i+1) * d_y)
                     )
             );
 
@@ -97,7 +97,7 @@ public class App extends Application {
 
                 gc.clearRect(0, H + d_y, W, d_y);
                 gc.setFill(Color.CORNSILK);
-                gc.fillRect(0, H/10, W, H);
+                gc.fillRect(0, d_y, W, H);
                 gc.setFill(Color.FORESTGREEN);
 
                 theScene.setOnKeyPressed(this::KeyPressed);
