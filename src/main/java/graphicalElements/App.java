@@ -28,8 +28,8 @@ public class App extends Application {
     public static final int H = 500; //hauteur de la route
 
     // Dimension d'une case sur une voie
-    int d_x = W/6;
-    int d_y = H/10;
+    public static final int d_x = W/6;
+    public static final int d_y = H/10;
 
     //Game instance
     public Game game = new Game(d_x, d_y, H, W);
@@ -40,7 +40,7 @@ public class App extends Application {
     Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
 
     // array to browse through
-    public static int[][] T = new int[10][10];
+    public static int[][] T = new int[H/d_y][H/d_y];
 
     // arraylist to store timelines
     public static ArrayList<Timeline> L = new ArrayList<>();
@@ -94,11 +94,9 @@ public class App extends Application {
             public void handle(long now) {
 
                 GraphicsContext gc = canvas.getGraphicsContext2D();
-
                 gc.clearRect(0, H + d_y, W, d_y);
                 gc.setFill(Color.CORNSILK);
                 gc.fillRect(0, d_y, W, H);
-                gc.setFill(Color.FORESTGREEN);
 
                 theScene.setOnKeyPressed(this::KeyPressed);
 
@@ -134,8 +132,15 @@ public class App extends Application {
                 System.out.println("Key" + " "+ code + " is pressed");
 
                 // On fait évoluer la position de la grenouille
-                game.deplacementFrog(Direction.valueOf(code));
+                try {
+                    game.deplacementFrog(Direction.valueOf(code));
+                } catch (IllegalArgumentException exception) {
+                    System.out.println("Veillez utiliser uniquement les flèches du pavé numérique");
+                } catch (Exception exception){
+                    System.out.println(exception.toString());
+                }
             }
+
         };
 
 
