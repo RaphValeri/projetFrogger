@@ -95,6 +95,7 @@ public class App extends Application {
 
                 GraphicsContext gc = canvas.getGraphicsContext2D();
 
+                gc.clearRect(0, H + d_y, W, d_y);
                 gc.setFill(Color.CORNSILK);
                 gc.fillRect(0, H/10, W, H);
                 gc.setFill(Color.FORESTGREEN);
@@ -115,12 +116,13 @@ public class App extends Application {
                         gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
                         gc.fillText("GAME OVER !!", W/3, H/2+d_y);
                     }
-                    if((frog.getPosition()[1]==0)){
+                    if(frog.getPosition()[1]==0){
                         game.victoire = true;
                         gc.setFill(Color.BLACK);
                         gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
                         gc.fillText("Gagné !!", W/3, H/2+d_y);
                     }
+
                 }
                 if(frog.getLife()==0 | game.victoire )this.stop(); //Arrêt de l'aniamtion en cas de collision
 

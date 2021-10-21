@@ -32,7 +32,7 @@ public class Game implements IEnvironment, IFrog {
         int y = frog.getPosition()[1];
 
         int x_lim = this.W; // Changer les limites avec les dimensions de la fenetre
-        int y_lim = this.H;
+        int y_lim = this.H + 2*d_y;
 
         switch(dir){
             case UP:
