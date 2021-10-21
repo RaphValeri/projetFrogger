@@ -3,8 +3,10 @@ package graphicalElements;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.beans.property.*;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.*;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
@@ -31,6 +33,10 @@ public class App extends Application {
     public Game game = new Game(d_x, d_y, H, W);
     public Frog frog = game.frog;
 
+    //Images et elements graphiques
+    Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",W/6, H/10, false, false);
+    Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
+    Label label_G0 = new Label("GAME OVER ");
     // array to browse through
     public static int[][] T = new int[10][10];
 
@@ -40,10 +46,9 @@ public class App extends Application {
     // arraylist to store x,y
     public static ArrayList<DoubleProperty[]> P = new ArrayList<>();
 
-    // arraylist to store the direction of the frog
-    ArrayList<Direction> input = new ArrayList<Direction>();
 
-    @Override public void start(Stage stage) {
+    @Override
+    public void start(Stage stage) {
         stage.setTitle("FROGGER");
         stage.setResizable(false);
 
@@ -54,14 +59,16 @@ public class App extends Application {
         stage.setScene( theScene );
         root.getChildren().add( canvas );
 
-        //set the position of frog
+        //On place la grenouille au point de départ
         frog.setPosition(W/2-W/12, H+H/10);
 
         for (int i = 0; i < T.length; i++) {
+
             DoubleProperty x  = new SimpleDoubleProperty();
             DoubleProperty y  = new SimpleDoubleProperty();
             P.add(new DoubleProperty[]{x, y});
 
+            //Création des voitures
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.seconds(0),
                             new KeyValue(x, - W / 6),
@@ -78,55 +85,49 @@ public class App extends Application {
             L.add(timeline);
         }
 
-        Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",W/6, H/10, false, false);
-        Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
-
-
-
+        //Création de l'animation
         AnimationTimer timer = new AnimationTimer() {
+            //Definition de la méthode abstraite handle de AnimationTimer()
             @Override
             public void handle(long now) {
+
                 GraphicsContext gc = canvas.getGraphicsContext2D();
 
                 gc.setFill(Color.CORNSILK);
                 gc.fillRect(0, H/10, W, H);
                 gc.setFill(Color.FORESTGREEN);
 
-                theScene.setOnKeyPressed(
-                        new EventHandler<KeyEvent>()
-                        {
-                            public void handle(KeyEvent e)
-                            {
-                                String code = e.getCode().toString();
-                                System.out.println("Key" + " "+ code + " is pressed");
-
-                                // On fait évoluer la position de la grenouille
-                                game.deplacementFrog(Direction.valueOf(code));
-                            }
-                        });
+                theScene.setOnKeyPressed(this::KeyPressed);
 
                 for (int i=0; i < P.size(); i++){
                     int x = (int) P.get(i)[0].doubleValue();
                     int y = (int) P.get(i)[1].doubleValue();
-
                     gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
-                    //gc.fillRect(
-                            //x,
-                            //y,
-                            //W / 6,
-                            //H / 10
-                    //);
                     gc.drawImage(car_img, x, y, d_x, d_y);
+
+                    //Vérification d'une éventuelle collision
                     if((frog.getPosition()[0] - d_x <= x ) & ( x <=(frog.getPosition()[0] ) & y==frog.getPosition()[1])) {
                         System.out.println("GAME OVER !!!!");
+                        frog.setLife(0);
+                        gc.strokeText("GAME OVER !!", W/3, H/2+d_y, 50000);
                     }
                 }
+                if(frog.getLife()==0)this.stop(); //Arrêt de l'aniamtion en cas de collision
+            }
+
+            //Méthode appelée lors de l'appui sur une touche du clavier
+            private void KeyPressed(KeyEvent e) {
+                String code = e.getCode().toString();
+                System.out.println("Key" + " "+ code + " is pressed");
+
+                // On fait évoluer la position de la grenouille
+                game.deplacementFrog(Direction.valueOf(code));
             }
         };
 
-        //stage.setScene(new Scene(new Group(canvas)));
+
         stage.show();
-        timer.start();
+        timer.start(); //On démarre l'animation
 
         for (int i = 0; i < T.length; i++) {
             L.get(i).play();
@@ -134,5 +135,9 @@ public class App extends Application {
 
     }
 
+
+
     public static void main(String[] args) { launch(args); }
+
+
 }
