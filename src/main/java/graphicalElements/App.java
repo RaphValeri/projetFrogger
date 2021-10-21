@@ -12,6 +12,8 @@ import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
@@ -109,10 +111,19 @@ public class App extends Application {
                     if((frog.getPosition()[0] - d_x <= x ) & ( x <=(frog.getPosition()[0] ) & y==frog.getPosition()[1])) {
                         System.out.println("GAME OVER !!!!");
                         frog.setLife(0);
-                        gc.strokeText("GAME OVER !!", W/3, H/2+d_y, 50000);
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+                        gc.fillText("GAME OVER !!", W/3, H/2+d_y);
+                    }
+                    if((frog.getPosition()[1]==0)){
+                        game.victoire = true;
+                        gc.setFill(Color.BLACK);
+                        gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+                        gc.fillText("Gagné !!", W/3, H/2+d_y);
                     }
                 }
-                if(frog.getLife()==0)this.stop(); //Arrêt de l'aniamtion en cas de collision
+                if(frog.getLife()==0 | game.victoire )this.stop(); //Arrêt de l'aniamtion en cas de collision
+
             }
 
             //Méthode appelée lors de l'appui sur une touche du clavier
