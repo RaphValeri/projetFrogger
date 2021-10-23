@@ -1,5 +1,7 @@
 package graphicalElements;
 
 public interface IFroggerGraphics {
-    public void to_do();
+    String imageFrog();
+    String imageVehicule();
+    String imageBackground();
 }

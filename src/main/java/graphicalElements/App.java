@@ -22,7 +22,7 @@ import gameCommons.Game;
 import frog.Frog;
 import util.Plateau;
 
-public class App extends Application {
+public class App extends Application implements IFroggerGraphics {
 
     // canvas dimensions
     public static final int W = 500; //largeur de la route
@@ -38,9 +38,9 @@ public class App extends Application {
     Plateau plateau = new Plateau();
 
     //Images
-    Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",d_x, d_y, false, false);
-    Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
-    Image background_img = new Image("file:src/main/java/graphicalElements/background_img.png", d_x, d_y, false, false);
+    Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
+    Image car_img = new Image(imageVehicule(), d_x, d_y, false, false);
+    Image background_img = new Image(imageBackground(), d_x, d_y, false, false);
 
     // array to browse through
     public static int[][] T = new int[H/d_y][H/d_y];
@@ -154,6 +154,19 @@ public class App extends Application {
             L.get(i).play();
         }
 
+    }
+
+    public String imageFrog()
+    {
+        return "file:src/main/java/graphicalElements/frog_img.png";
+    }
+    public String imageVehicule()
+    {
+        return "file:src/main/java/graphicalElements/car_img.png";
+    }
+    public String imageBackground()
+    {
+        return "file:src/main/java/graphicalElements/background_img.png";
     }
 
 
