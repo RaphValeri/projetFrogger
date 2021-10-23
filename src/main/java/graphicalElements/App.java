@@ -20,8 +20,9 @@ import java.util.ArrayList;
 import util.Direction;
 import gameCommons.Game;
 import frog.Frog;
+import util.Plateau;
 
-public class App extends Application {
+public class App extends Application implements IFroggerGraphics {
 
     // canvas dimensions
     public static final int W = 500; //largeur de la route
@@ -34,11 +35,12 @@ public class App extends Application {
     //Game instance
     public Game game = new Game(d_x, d_y, H, W);
     public Frog frog = game.frog;
+    Plateau plateau = new Plateau();
 
     //Images
-    Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",d_x, d_y, false, false);
-    Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
-    Image backgroung_img = new Image("file:src/main/java/graphicalElements/background_img.png", W, H, false, false);
+    Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
+    Image car_img = new Image(imageVehicule(), d_x, d_y, false, false);
+    Image background_img = new Image(imageBackground(), d_x, d_y, false, false);
 
     // array to browse through
     public static int[][] T = new int[H/d_y][H/d_y];
@@ -78,13 +80,13 @@ public class App extends Application {
                             new KeyValue(y, (i+1) * d_y)
                     ),
 
-                    new KeyFrame(Duration.seconds(i + 3),
+                    new KeyFrame(Duration.seconds(plateau.voie[i].getVitesse()),
                             new KeyValue(x, W),
                             new KeyValue(y, (i+1) * d_y)
                     )
             );
 
-            timeline.setCycleCount(Timeline.INDEFINITE);
+            //timeline.setCycleCount(Timeline.INDEFINITE);
             L.add(timeline);
         }
 
@@ -93,12 +95,10 @@ public class App extends Application {
             //Definition de la méthode abstraite handle de AnimationTimer()
             @Override
             public void handle(long now) {
-
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.clearRect(0, H + d_y, W, d_y);
                 gc.setFill(Color.CORNSILK);
-                //gc.fillRect(0, d_y, W, H);
-                gc.drawImage(backgroung_img, 0, d_y, W, H);
+                gc.fillRect(0, d_y, W, H);
 
                 theScene.setOnKeyPressed(this::KeyPressed);
 
@@ -107,6 +107,7 @@ public class App extends Application {
                     int y = (int) P.get(i)[1].doubleValue();
                     gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
                     gc.drawImage(car_img, x, y, d_x, d_y);
+                    //gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
 
                     //Vérification d'une éventuelle collision
                     if((frog.getPosition()[0] - d_x <= x ) & ( x <=(frog.getPosition()[0] ) & y==frog.getPosition()[1])) {
@@ -153,6 +154,19 @@ public class App extends Application {
             L.get(i).play();
         }
 
+    }
+
+    public String imageFrog()
+    {
+        return "file:src/main/java/graphicalElements/frog_img.png";
+    }
+    public String imageVehicule()
+    {
+        return "file:src/main/java/graphicalElements/car_img.png";
+    }
+    public String imageBackground()
+    {
+        return "file:src/main/java/graphicalElements/background_img.png";
     }
 
 

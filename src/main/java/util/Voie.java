@@ -6,6 +6,7 @@ public class Voie implements Velo, Voiture{
     private int vehicule[];     //position des vehicule dans la voie.
     private int flag = (int)(Math.random() + 1);
     private int vehiculeInterface[];
+    private final double vitesse;
 
     public Voie(String name, int level, int taille)
     {
@@ -13,6 +14,7 @@ public class Voie implements Velo, Voiture{
         this.level = level;
         this.vehicule = new int[taille];
         this.vehiculeInterface = new int[]{idVelo, idVoiture};
+        this.vitesse = Math.random() * (3 - level) + 1;
     }
 
     public String getName()
@@ -37,6 +39,14 @@ public class Voie implements Velo, Voiture{
          * getState permet d'acceder a la variable vehicule.
          * Renvoie la variable vehicule.*/
         return this.vehicule;
+    }
+
+    public double getVitesse()
+    {
+        /*
+        * getVitesse permet d'acceder a la variable vehicule.
+        * Renvoie la variable vehicule.*/
+        return this.vitesse;
     }
 
     public void setVehicleCoef(int coef, int i)
