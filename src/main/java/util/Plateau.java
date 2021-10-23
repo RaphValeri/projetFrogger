@@ -9,7 +9,7 @@ import java.nio.file.*;
 
 public class Plateau {
     private final util.Case[][] plateau;     //Plateau du jeu, etat des cases.
-    private util.Voie[] voie;      //Voies du jeu.
+    public util.Voie[] voie;      //Voies du jeu.
     int hauteur = 12;       //dimension du plateau.
     int largeurMin = 10;
     int largeurMax = 30;
