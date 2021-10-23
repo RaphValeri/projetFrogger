@@ -38,6 +38,7 @@ public class App extends Application {
     //Images
     Image frog_img = new Image("file:src/main/java/graphicalElements/frog_img.png",d_x, d_y, false, false);
     Image car_img = new Image("file:src/main/java/graphicalElements/car_img.png", d_x, d_y, false, false);
+    Image backgroung_img = new Image("file:src/main/java/graphicalElements/background_img.png", W, H, false, false);
 
     // array to browse through
     public static int[][] T = new int[H/d_y][H/d_y];
@@ -96,7 +97,8 @@ public class App extends Application {
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.clearRect(0, H + d_y, W, d_y);
                 gc.setFill(Color.CORNSILK);
-                gc.fillRect(0, d_y, W, H);
+                //gc.fillRect(0, d_y, W, H);
+                gc.drawImage(backgroung_img, 0, d_y, W, H);
 
                 theScene.setOnKeyPressed(this::KeyPressed);
 
