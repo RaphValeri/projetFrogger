@@ -22,7 +22,7 @@ import gameCommons.Game;
 import frog.Frog;
 import util.Plateau;
 
-public class App extends Application implements IFroggerGraphics {
+public class App extends Application implements IFroggerGraphics, VoitureGraphics {
 
     // canvas dimensions
     public static final int W = 500; //largeur de la route
