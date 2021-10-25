@@ -11,18 +11,12 @@ public class Plateau {
     private final util.Case[][] plateau;     //Plateau du jeu, etat des cases.
     public util.Voie[] voie;      //Voies du jeu.
     int hauteur = 12;       //dimension du plateau.
-    int largeurMin = 10;
-    int largeurMax = 30;
-    int largeur;
+    int largeur = 10;
 
     //private Jeu;
 
     public Plateau()
     {
-        this.largeur = (int) (Math.random() * (this.largeurMax - this.largeurMin) + this.largeurMin);        //largeur du plateau aléatoire entre 10 et 30, loi uniforme.
-
-        System.out.println(largeur);
-
         this.plateau = new util.Case[this.hauteur][largeur];     //Initialisation plateau de Case.
         this.voie = new util.Voie[this.hauteur - 2];     //Initialisation des voies.
 
