@@ -5,20 +5,20 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.io.*;
 import java.nio.file.*;
+import java.util.Arrays;
 
 
 public class Plateau {
     private final util.Case[][] plateau;     //Plateau du jeu, etat des cases.
     public util.Voie[] voie;      //Voies du jeu.
-    int hauteur ;       //dimension du plateau.
-    int largeur ;
+    int hauteur = 12;       //dimension du plateau.
+    int largeur = 10;
+    private final int nScore = 10;
 
     //private Jeu;
 
-    public Plateau(int largeur, int hauteur)
+    public Plateau()
     {
-        this.hauteur = hauteur;
-        this.largeur = largeur;
         this.plateau = new util.Case[this.hauteur][largeur];     //Initialisation plateau de Case.
         this.voie = new util.Voie[this.hauteur - 2];     //Initialisation des voies.
 
@@ -65,58 +65,95 @@ public class Plateau {
         }
     }
 
-    public int enregistrerPartie(String file) {
+    public void enregistrerPartie(String file, int score)
+    {
         /*
-         * AfficherVoie affiche le nom de la voie et les positions des vehicules.
-         * Return (void).*/
+         * enregistrerPartie enregistre un nouveau score parmi les meilleurs scores precedement obtenus.
+         * Parametre:
+         * file: chemin du fichier.
+         * score: score obtenu.
+        * Return (void).*/
+
+        int[] tabScore = recupererPartie(file);
+
+        if(score > tabScore[0])
+        {
+            tabScore[0] = score;
+            Arrays.sort(tabScore);
+        }
+
+        int j = enregistrerScore(file, tabScore);
+    }
+
+    public int enregistrerScore(String file, int[] tab) {
+        /*
+         * AfficherVoie enregistre un tableau des scores.
+         * Parametre:
+         * file: chemin du fichier.
+         * tab: tableau des scores.
+         * Return 1 si la transcription n'est pas complete, 0 sinon.*/
 
         try {
             FileWriter fw = new FileWriter(file, false);
+            BufferedWriter fwOut = new BufferedWriter(fw);
 
-            for (util.Voie value : this.voie) {
-                for(int i = 0; i < largeur; ++i)
-                {
-
-                    fw.write(Integer.toString(value.getVehicule()[i]));
+            for (int k : tab) {
+                try {
+                    fwOut.write(String.valueOf(k));
+                    fwOut.write(",");
+                    fwOut.write("25/10");
+                    fwOut.newLine();
                 }
-
-
+                catch (Exception e1)
+                {
+                    System.out.println(e1);
+                    System.out.println("Les resultats n'ont pas pu tous etre affiche.");
+                }
             }
 
-            fw.close();
+            fwOut.close();
 
-        } catch (IOException e) {
-            System.out.println("e.toString()");
+
+
+        }
+        catch (IOException e) {
+            System.out.println(e);
             return 1;
         }
 
         return 0;
     }
 
-    public void recupererPartie(String file)
+    public int[] recupererPartie(String file)
     {
-        Path fr = Paths.get(file);
-        InputStream input = null;
+        /*
+         * recupererPartie recupere dans un fichier le tableau des scores.
+         * Parametre:
+         * file: chemin du fichier.
+         * Return (void).*/
+        int [] tabScore = new int[nScore];
+        int i = 0;
+
         try {
-            input = Files.newInputStream(fr);
+            File fr = new File(file);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            int coefVehicule;
+            BufferedReader frIn = new BufferedReader(new FileReader(fr));
 
-            for (Voie value : voie) {
-                for (int j = 0; j < this.largeur; j++) {
-                    coefVehicule = reader.read();
-                    value.setVehicleCoef(coefVehicule - 48, j);
-                }
+            String readLine = "";
+
+            while ((readLine = frIn.readLine()) != null) {
+                String[] readLineTab = readLine.split(",", 2);
+                int readLineScore = Integer.parseInt(readLineTab[0]);
+                //System.out.println(readLineScore);
+                tabScore[i] = readLineScore;
+                ++i;
             }
 
-            input.close();
-
-
-
         } catch (IOException e) {
-            System.out.println("Message " + e);
+            e.printStackTrace();
         }
+
+        return tabScore;
     }
 
     public void unTour()
@@ -128,7 +165,9 @@ public class Plateau {
     }
 
     public static void main(String[] args) {
-        Plateau p1 = new Plateau(6, 10);
+        Plateau p1 = new Plateau();
+        int tab1[] = {1, 3, 2, 7, 9};
+
 
         p1.AfficherPlateau();
 
@@ -144,28 +183,10 @@ public class Plateau {
 
         String file = "test.txt";
 
-        int j = p1.enregistrerPartie(file);
-
-        System.out.println(j);
-
-        for(int i = 10; i < 15; i++)
-        {
-            p1.unTour();
-            System.out.println("");
-            System.out.println("Tour " + i);
-            p1.AfficherVoie();
-        }
+        p1.enregistrerPartie(file, 14);
 
         p1.recupererPartie(file);
-        p1.AfficherVoie();
 
-        for(int i = 15; i < 20; i++)
-        {
-            p1.unTour();
-            System.out.println("");
-            System.out.println("Tour " + i);
-            p1.AfficherVoie();
-        }
     }
 
 
