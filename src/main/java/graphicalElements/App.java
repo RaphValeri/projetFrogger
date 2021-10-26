@@ -47,7 +47,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
     //Images
     Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
     Image car_img = new Image(imageVehicule(), d_x, d_y, false, false);
-    Image background_img = new Image(imageBackground(), d_x, d_y, false, false);
+    Image background_img = new Image(imageBackground(), W, H + 2 * d_y, false, false);
 
 
     @Override
@@ -83,6 +83,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                 gc.fillRect(0, d_y, W, H);
 
                 //Affichage de la grenouille
+                gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
                 gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
 
                 theScene.setOnKeyPressed(this::KeyPressed);
@@ -97,7 +98,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             int y = (int) voies[i].position.get(j)[1].doubleValue();
 
                             gc.drawImage(car_img, x, y, d_x, d_y);
-                            //gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
+
 
                             //Vérification d'une éventuelle collision
                             if ((frog.getPosition()[0] - d_x <= x) & (x <= (frog.getPosition()[0]) & y == frog.getPosition()[1])) {
