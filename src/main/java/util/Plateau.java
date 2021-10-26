@@ -10,13 +10,15 @@ import java.nio.file.*;
 public class Plateau {
     private final util.Case[][] plateau;     //Plateau du jeu, etat des cases.
     public util.Voie[] voie;      //Voies du jeu.
-    int hauteur = 12;       //dimension du plateau.
-    int largeur = 10;
+    int hauteur ;       //dimension du plateau.
+    int largeur ;
 
     //private Jeu;
 
-    public Plateau()
+    public Plateau(int largeur, int hauteur)
     {
+        this.hauteur = hauteur;
+        this.largeur = largeur;
         this.plateau = new util.Case[this.hauteur][largeur];     //Initialisation plateau de Case.
         this.voie = new util.Voie[this.hauteur - 2];     //Initialisation des voies.
 
@@ -126,7 +128,7 @@ public class Plateau {
     }
 
     public static void main(String[] args) {
-        Plateau p1 = new Plateau();
+        Plateau p1 = new Plateau(6, 10);
 
         p1.AfficherPlateau();
 

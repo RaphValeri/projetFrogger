@@ -9,7 +9,7 @@ public class Game implements IEnvironment, IFrog {
     //Instentiation des objets utiles pour le jeu : un plateau, une grenouille...
 
     public Frog frog = new Frog(new int[2] , 1);
-    public Plateau plateau = new Plateau();
+    public Plateau plateau;
     public boolean victoire = false;
     public int d_x;
     public int d_y;
@@ -21,6 +21,7 @@ public class Game implements IEnvironment, IFrog {
         this.d_y = dy;
         this.W = W;
         this.H = height;
+        this.plateau = new Plateau(W/dx, height/dy + 2);
     }
 
     @Override

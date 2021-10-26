@@ -21,7 +21,12 @@ import util.Direction;
 import gameCommons.Game;
 import frog.Frog;
 import util.Plateau;
+import util.Voie;
 
+
+/**
+ * Classe qui gère l'IHM du jeu Frogger
+ */
 public class App extends Application implements IFroggerGraphics, VoitureGraphics {
 
     // canvas dimensions
@@ -35,24 +40,23 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
     //Game instance
     public Game game = new Game(d_x, d_y, H, W);
     public Frog frog = game.frog;
-    Plateau plateau = new Plateau();
+    Plateau plateau = new Plateau(W/d_x, H/d_y + 2);
+    Voie[] voies = plateau.voie;
+
 
     //Images
     Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
     Image car_img = new Image(imageVehicule(), d_x, d_y, false, false);
     Image background_img = new Image(imageBackground(), d_x, d_y, false, false);
 
-    // array to browse through
-    public static int[][] T = new int[H/d_y][H/d_y];
-
-    // arraylist to store timelines
-    public static ArrayList<Timeline> L = new ArrayList<>();
-
-    // arraylist to store x,y
-    public static ArrayList<DoubleProperty[]> P = new ArrayList<>();
-
 
     @Override
+    /**
+     * Méthode abstraite de la classe Application
+     *
+     * @param stage
+     *              Stage de l'application
+     */
     public void start(Stage stage) {
         stage.setTitle("FROGGER");
         stage.setResizable(false);
@@ -64,31 +68,9 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
         stage.setScene( theScene );
         root.getChildren().add( canvas );
 
-        //On place la grenouille au point de départ
+        //On place la grenouille au point de départ (en bas au milieu du plateau)
         frog.setPosition(W/2-d_x/2, H+d_y);
 
-        for (int i = 0; i < T.length; i++) {
-
-            DoubleProperty x  = new SimpleDoubleProperty();
-            DoubleProperty y  = new SimpleDoubleProperty();
-            P.add(new DoubleProperty[]{x, y});
-
-            //Création des voitures
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.seconds(0),
-                            new KeyValue(x, - d_x),
-                            new KeyValue(y, (i+1) * d_y)
-                    ),
-
-                    new KeyFrame(Duration.seconds(plateau.voie[i].getVitesse()),
-                            new KeyValue(x, W),
-                            new KeyValue(y, (i+1) * d_y)
-                    )
-            );
-
-            //timeline.setCycleCount(Timeline.INDEFINITE);
-            L.add(timeline);
-        }
 
         //Création de l'animation
         AnimationTimer timer = new AnimationTimer() {
@@ -100,36 +82,54 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                 gc.setFill(Color.CORNSILK);
                 gc.fillRect(0, d_y, W, H);
 
+                //Affichage de la grenouille
+                gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
+
                 theScene.setOnKeyPressed(this::KeyPressed);
 
-                for (int i=0; i < P.size(); i++){
-                    int x = (int) P.get(i)[0].doubleValue();
-                    int y = (int) P.get(i)[1].doubleValue();
-                    gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
-                    gc.drawImage(car_img, x, y, d_x, d_y);
-                    //gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
+                for (int i=0; i < voies.length; i++) {
+                    //Parcours de toutes les voies
+                    if (voies[i].is_timeline) {
+                        //S'il y a une timeline sur la voie (c-a-d une voiture) on affiche la voiture
+                        for (int j = 0; j < voies[i].position.size(); j++) {
 
-                    //Vérification d'une éventuelle collision
-                    if((frog.getPosition()[0] - d_x <= x ) & ( x <=(frog.getPosition()[0] ) & y==frog.getPosition()[1])) {
-                        System.out.println("GAME OVER !!!!");
-                        frog.setLife(0);
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-                        gc.fillText("GAME OVER !!", W/3, H/2+d_y);
-                    }
-                    if(frog.getPosition()[1]==0){
-                        game.victoire = true;
-                        gc.setFill(Color.BLACK);
-                        gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-                        gc.fillText("Gagné !!", W/3, H/2+d_y);
-                    }
+                            int x = (int) voies[i].position.get(j)[0].doubleValue();
+                            int y = (int) voies[i].position.get(j)[1].doubleValue();
 
+                            gc.drawImage(car_img, x, y, d_x, d_y);
+                            //gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
+
+                            //Vérification d'une éventuelle collision
+                            if ((frog.getPosition()[0] - d_x <= x) & (x <= (frog.getPosition()[0]) & y == frog.getPosition()[1])) {
+                                System.out.println("GAME OVER !!!!");
+                                frog.setLife(0);
+                                gc.setFill(Color.BLACK);
+                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+                                gc.fillText("GAME OVER !!", W / 3, H / 2 + d_y);
+                            }
+                            if (frog.getPosition()[1] == 0) {
+                                game.victoire = true;
+                                gc.setFill(Color.BLACK);
+                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+                                gc.fillText("Gagné !!", W / 3, H / 2 + d_y);
+                            }
+                        }
+                    }
                 }
-                if(frog.getLife()==0 | game.victoire )this.stop(); //Arrêt de l'aniamtion en cas de collision
+                if(frog.getLife()==0 | game.victoire )this.stop(); //Arrêt de l'animation en cas de collision
+
+                actu_timelines();
+                actualisation();
 
             }
 
-            //Méthode appelée lors de l'appui sur une touche du clavier
+
+            /**
+             * Méthode appelée lors de l'appui sur une touche du clavier
+             * Elle permet de faire évoluer la position de la grenouille selon la touche utilisée par le joueur
+             * @param e
+             *          Evénement d'action sur une touche du clavier
+             */
             private void KeyPressed(KeyEvent e) {
                 String code = e.getCode().toString();
                 System.out.println("Key" + " "+ code + " is pressed");
@@ -146,32 +146,88 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
         };
 
-
         stage.show();
         timer.start(); //On démarre l'animation
 
-        for (int i = 0; i < T.length; i++) {
-            L.get(i).play();
-        }
-
     }
 
+    /**
+     *Retourne le path de l'image de la grenouille
+     * @return le chemin d'accès à l'image de la grenouille
+     */
     public String imageFrog()
     {
         return "file:src/main/java/graphicalElements/frog_img.png";
     }
+
+    /**
+     * Retourne le path de l'image de la voiture
+     * @return le chemin d'accès à l'image de la voiture
+     */
     public String imageVehicule()
     {
         return "file:src/main/java/graphicalElements/car_img.png";
     }
+
+    /**
+     * Retourne le path de l'image de fond de l'application
+     * @return le chemin d'accès à l'image de fond
+     */
     public String imageBackground()
     {
         return "file:src/main/java/graphicalElements/background_img.png";
     }
 
+    /**
+     * Arrêt des animations sur les voies pour lesquels la voiture est arrivée à la fin de la voie
+     */
+    private void actu_timelines(){
+        for(int i=0; i<voies.length; i++){
+            if(voies[i].is_timeline){
+                if(voies[i].timeline.getStatus()==Animation.Status.STOPPED){
+                    voies[i].is_timeline = false;
+                    voies[i].timeline.stop(); // on arrête réellement la timeline
+                }
+            }
+        }
+    }
 
+    /**
+     * Ajout d'une animation (timeline) sur les voies qui n'en ont pas avec une probabilité
+     * définie dans la classe Voie avec le booléen passage.
+     * @see Voie
+     */
+    private void actualisation(){
+        for(int i=0; i<voies.length; i++){
+            //Parcours de chaque voie
+            if(!voies[i].is_timeline){
+                //S'il n'y a pas de timeline sur la voie (ie pas de voitures)
+                if(voies[i].passage()){
+                    //Ajout d'une timeline avec une probabilité définie par le booléen passage
+                    voies[i].is_timeline = true;
+                    DoubleProperty x = new SimpleDoubleProperty();
+                    DoubleProperty y = new SimpleDoubleProperty();
+
+                    voies[i].position.add(new DoubleProperty[]{x, y});
+
+                    //Création des voitures
+                    voies[i].timeline = new Timeline(
+                            new KeyFrame(Duration.seconds(0),
+                                    new KeyValue(x, -d_x),
+                                    new KeyValue(y, (i + 1) * d_y)
+                            ),
+
+                            new KeyFrame(Duration.seconds(voies[i].getVitesse()),
+                                    new KeyValue(x, W),
+                                    new KeyValue(y, (i + 1) * d_y)
+                            )
+                    );
+                    voies[i].timeline.play();
+                }
+            };
+        }
+    }
 
     public static void main(String[] args) { launch(args); }
-
 
 }

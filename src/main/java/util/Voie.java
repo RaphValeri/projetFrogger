@@ -1,5 +1,10 @@
 package util;
 
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+
+import java.util.ArrayList;
+
 public class Voie implements Velo, Voiture{
     private final String name;
     private final int level;
@@ -7,6 +12,10 @@ public class Voie implements Velo, Voiture{
     private int flag = (int)(Math.random() + 1);
     private int vehiculeInterface[];
     private final double vitesse;
+    public boolean is_timeline=false; //booléen indiquant si une timeline est défini sur cette voie
+    public Timeline timeline; //timeline de la voie
+    public ArrayList<DoubleProperty[]> position = new ArrayList<>(); //liste qui contient les positions des voitures sur cette voie
+
 
     public Voie(String name, int level, int taille)
     {
@@ -54,14 +63,14 @@ public class Voie implements Velo, Voiture{
         this.vehicule[i] = coef;
     }
 
-    private Boolean passage()
+    public Boolean passage()
     {
         /*
          * passage indique si un nouveau vehicul apparait dans la voie.
          * Renvoie True si un vehicule apparait, sinon False.*/
         double d = Math.random();
 
-        return d < 0.2;
+        return d < 0.01;
     }
 
     public void avancerVelo(int i)
