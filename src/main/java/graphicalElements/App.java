@@ -167,7 +167,8 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                         }
                     }
                 }
-                if (frog.getLife()==0 | game.victoire ) {
+
+                if (frog.getLife()==0 || game.victoire) {
                     this.stop(); //Arrêt de l'animation en cas de collision
 
                     frog.setLife(1);
@@ -204,7 +205,13 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                     root.getChildren().add(HB);
                 }
 
-                actu_timelines();
+                if (game.victoire) {
+                    game.victoire = false;
+                }
+
+                try {actu_timelines();}
+                catch(Exception e){e.printStackTrace();}
+
                 actualisation();
 
             }
