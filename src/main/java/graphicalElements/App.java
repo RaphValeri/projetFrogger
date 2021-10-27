@@ -6,12 +6,17 @@ import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -46,7 +51,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
     //Game instance
     public Game game = new Game(d_x, d_y, H, W);
     public Frog frog = game.frog;
-    Plateau plateau = new Plateau(W/d_x, H/d_y + 2);
+    Plateau plateau = new Plateau(W/d_x, H/d_y + 2, 1);
     Voie[] voies = plateau.voie;
 
 
@@ -70,7 +75,8 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
         final Canvas canvas = new Canvas(W, H+2*d_y);
 
-        Group root = new Group();
+        // Group root = new Group();
+        StackPane root = new StackPane();
         Scene theScene = new Scene( root );
         stage.setScene( theScene );
         root.getChildren().add( canvas );
@@ -161,7 +167,40 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                         }
                     }
                 }
-                if(frog.getLife()==0 | game.victoire )this.stop(); //Arrêt de l'animation en cas de collision
+                if (frog.getLife()==0 | game.victoire ) {
+                    this.stop(); //Arrêt de l'animation en cas de collision
+
+                    frog.setLife(1);
+
+                    Button bt1 = new Button("Play again");
+                    bt1.setPrefSize(W/6, H/4);
+                    Button bt2 = new Button("Next level");
+                    bt2.setPrefSize(W/6, H/4);
+                    Button bt3 = new Button("Quit");
+                    bt3.setPrefSize(W/6, H/4);
+
+                    bt1.setOnMouseClicked((MouseEvent ME) -> {
+                        plateau = new Plateau(W/d_x, H/d_y + 2, plateau.getLevel());
+                        voies = plateau.voie;
+                        actualisation();
+                        this.start();
+                        root.getChildren().remove(1);
+                    });
+
+                    bt2.setOnMouseClicked((MouseEvent ME) -> {
+                        plateau = new Plateau(W/d_x, H/d_y + 2, plateau.getLevel() + 1);
+                        voies = plateau.voie;
+                        actualisation();
+                        this.start();
+                        root.getChildren().remove(1);
+                    });
+
+                    bt3.setOnMouseClicked((MouseEvent ME) -> System.exit(0));
+
+                    HBox HB = new HBox(bt1, bt2, bt3);
+                    HB.setAlignment(Pos.CENTER);
+                    root.getChildren().add(HB);
+                }
 
                 actu_timelines();
                 actualisation();

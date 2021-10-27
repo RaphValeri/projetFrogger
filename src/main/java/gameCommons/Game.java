@@ -21,7 +21,7 @@ public class Game implements IEnvironment, IFrog {
         this.d_y = dy;
         this.W = W;
         this.H = height;
-        this.plateau = new Plateau(W/dx, height/dy + 2);
+        this.plateau = new Plateau(W/dx, height/dy + 2, 1);
     }
 
     @Override

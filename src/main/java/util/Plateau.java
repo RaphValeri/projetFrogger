@@ -13,14 +13,16 @@ public class Plateau {
     public util.Voie[] voie;      //Voies du jeu.
     int hauteur ;       //dimension du plateau.
     int largeur ;
+    int level;
     private final int nScore = 10;
 
     //private Jeu;
 
-    public Plateau(int largeur, int hauteur)
+    public Plateau(int largeur, int hauteur, int level)
     {
         this.hauteur = hauteur;
         this.largeur = largeur;
+        this.level = level;
         this.plateau = new util.Case[this.hauteur][largeur];     //Initialisation plateau de Case.
         this.voie = new util.Voie[this.hauteur - 2];     //Initialisation des voies.
 
@@ -41,7 +43,7 @@ public class Plateau {
                 int sens;
                 if(d<=0.5) sens = 1;
                 else sens = -1;
-                this.voie[i - 1] = new util.Voie("Voie " + i, 1, largeur, sens);
+                this.voie[i - 1] = new util.Voie("Voie " + i, level, largeur, sens);
             }
         }
 
@@ -172,7 +174,7 @@ public class Plateau {
     }
 
     public static void main(String[] args) {
-        Plateau p1 = new Plateau(10, 12);
+        Plateau p1 = new Plateau(10, 12, 1);
         int tab1[] = {1, 3, 2, 7, 9};
 
 
@@ -207,4 +209,9 @@ public class Plateau {
     public int getLargeur() {
         return largeur;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
 }
