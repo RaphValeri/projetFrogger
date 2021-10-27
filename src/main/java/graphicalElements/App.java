@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -16,6 +17,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import util.Direction;
 import gameCommons.Game;
@@ -47,12 +51,13 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
     //Images
     Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
     Image car_img = new Image(imageVehicule(), d_x, d_y, false, false);
-    Image background_img = new Image(imageBackground(), d_x, d_y, false, false);
+    Image background_img = new Image(imageBackground(), W, H+2*d_y, false, false);
 
 
     @Override
     /**
-     * Méthode abstraite de la classe Application
+     * Définition de la méthode abstraite de la classe Application
+     * Création de la fenêtre principale du jeu Frogger
      *
      * @param stage
      *              Stage de l'application
@@ -79,11 +84,11 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
             public void handle(long now) {
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.clearRect(0, H + d_y, W, d_y);
-                gc.setFill(Color.CORNSILK);
-                gc.fillRect(0, d_y, W, H);
+                gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
+                //gc.setFill(Color.CORNSILK);
+                //gc.fillRect(0, d_y, W, H);
 
-                //Affichage de la grenouille
-                gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
+
 
                 theScene.setOnKeyPressed(this::KeyPressed);
 
@@ -97,7 +102,10 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             int y = (int) voies[i].position.get(j)[1].doubleValue();
 
                             gc.drawImage(car_img, x, y, d_x, d_y);
-                            //gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
+
+                            //Affichage de la grenouille
+                            gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
+
 
                             //Vérification d'une éventuelle collision
                             if ((frog.getPosition()[0] - d_x <= x) & (x <= (frog.getPosition()[0]) & y == frog.getPosition()[1])) {
@@ -106,6 +114,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                                 gc.setFill(Color.BLACK);
                                 gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
                                 gc.fillText("GAME OVER !!", W / 3, H / 2 + d_y);
+
                             }
                             if (frog.getPosition()[1] == 0) {
                                 game.victoire = true;
@@ -228,6 +237,34 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
         }
     }
 
+    private  void initialisation_timelines(){
+        for(int i=0; i< voies.length; i++){
+            //Création des Timelines pour chaque voies
+            voies[i].is_timeline = true;
+            DoubleProperty x = new SimpleDoubleProperty();
+            DoubleProperty y = new SimpleDoubleProperty();
+
+            voies[i].position.add(new DoubleProperty[]{x, y});
+
+            //Création des voitures
+            voies[i].timeline = new Timeline(
+                    new KeyFrame(Duration.seconds(0),
+                            new KeyValue(x, -d_x),
+                            new KeyValue(y, (i + 1) * d_y)
+                    ),
+
+                    new KeyFrame(Duration.seconds(voies[i].getVitesse()),
+                            new KeyValue(x, W),
+                            new KeyValue(y, (i + 1) * d_y)
+                    )
+            );
+            voies[i].timeline.play();
+        }
+    }
+
+
+
     public static void main(String[] args) { launch(args); }
+
 
 }
