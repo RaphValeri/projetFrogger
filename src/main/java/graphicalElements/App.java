@@ -21,6 +21,8 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import util.Direction;
 import gameCommons.Game;
 import frog.Frog;
@@ -88,8 +90,6 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                 //gc.setFill(Color.CORNSILK);
                 //gc.fillRect(0, d_y, W, H);
 
-
-
                 theScene.setOnKeyPressed(this::KeyPressed);
 
                 for (int i=0; i < voies.length; i++) {
@@ -101,7 +101,43 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             int x = (int) voies[i].position.get(j)[0].doubleValue();
                             int y = (int) voies[i].position.get(j)[1].doubleValue();
 
+                            condition_creation(x, i, 1);
+
+
                             gc.drawImage(car_img, x, y, d_x, d_y);
+
+
+                            //Affichage de la grenouille
+                            gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
+
+
+                            //Vérification d'une éventuelle collision
+                            if ((frog.getPosition()[0] - d_x <= x) & (x <= (frog.getPosition()[0]) & y == frog.getPosition()[1])) {
+                                System.out.println("GAME OVER !!!!");
+                                frog.setLife(0);
+                                gc.setFill(Color.BLACK);
+                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+                                gc.fillText("GAME OVER !!", W / 3, H / 2 + d_y);
+
+                            }
+                            if (frog.getPosition()[1] == 0) {
+                                game.victoire = true;
+                                gc.setFill(Color.BLACK);
+                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
+                                gc.fillText("Gagné !!", W / 3, H / 2 + d_y);
+                            }
+                        }
+                    }
+                    if (voies[i].is_timeline2) {
+                        //S'il y a une timeline sur la voie (c-a-d une voiture) on affiche la voiture
+                        for (int j = 0; j < voies[i].position2.size(); j++) {
+
+                            int x = (int) voies[i].position2.get(j)[0].doubleValue();
+                            int y = (int) voies[i].position2.get(j)[1].doubleValue();
+
+                            condition_creation(x, i, 2);
+                            gc.drawImage(car_img, x, y, d_x, d_y);
+
 
                             //Affichage de la grenouille
                             gc.drawImage(frog_img, frog.getPosition()[0], frog.getPosition()[1]);
@@ -198,6 +234,12 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                     voies[i].timeline.stop(); // on arrête réellement la timeline
                 }
             }
+            if(voies[i].is_timeline2){
+                if(voies[i].timeline2.getStatus()==Animation.Status.STOPPED){
+                    voies[i].is_timeline2 = false;
+                    voies[i].timeline2.stop(); // on arrête réellement la timeline
+                }
+            }
         }
     }
 
@@ -209,45 +251,42 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
     private void actualisation(){
         for(int i=0; i<voies.length; i++){
             //Parcours de chaque voie
-            if(!voies[i].is_timeline){
-                //S'il n'y a pas de timeline sur la voie (ie pas de voitures)
+            if(!voies[i].is_timeline & !voies[i].voiture2){
+                //S'il n'y a pas de timeline pr la voiture 1 et que la voiture 2 n'empeche pas la 1
                 if(voies[i].passage()){
                     //Ajout d'une timeline avec une probabilité définie par le booléen passage
                     voies[i].is_timeline = true;
-                    DoubleProperty x = new SimpleDoubleProperty();
-                    DoubleProperty y = new SimpleDoubleProperty();
-
-                    voies[i].position.add(new DoubleProperty[]{x, y});
-
-                    //Création des voitures
-                    voies[i].timeline = new Timeline(
-                            new KeyFrame(Duration.seconds(0),
-                                    new KeyValue(x, -d_x),
-                                    new KeyValue(y, (i + 1) * d_y)
-                            ),
-
-                            new KeyFrame(Duration.seconds(voies[i].getVitesse()),
-                                    new KeyValue(x, W),
-                                    new KeyValue(y, (i + 1) * d_y)
-                            )
-                    );
-                    voies[i].timeline.play();
+                    creation_timeline(i, 1);
+                }
+            };
+            if(!voies[i].is_timeline2 & !voies[i].voiture1){
+                //S'il n'y a pas de timeline sur la voie (ie pas de voitures)
+                if(voies[i].passage()){
+                    //Ajout d'une timeline avec une probabilité définie par le booléen passage
+                    voies[i].is_timeline2 = true;
+                    creation_timeline(i, 2);
                 }
             };
         }
     }
 
-    private  void initialisation_timelines(){
-        for(int i=0; i< voies.length; i++){
-            //Création des Timelines pour chaque voies
-            voies[i].is_timeline = true;
-            DoubleProperty x = new SimpleDoubleProperty();
-            DoubleProperty y = new SimpleDoubleProperty();
 
-            voies[i].position.add(new DoubleProperty[]{x, y});
+    /**
+     * Création d'une Timeline pour un véhicule sur une voie
+     * @param i indice de la voie
+     * @param vehicule vehicule auquel est associée la Timeline
+     */
+    private void creation_timeline(int i, int vehicule){
+        Timeline timeline;
+        DoubleProperty x = new SimpleDoubleProperty();
+        DoubleProperty y = new SimpleDoubleProperty();
 
-            //Création des voitures
-            voies[i].timeline = new Timeline(
+        if(vehicule == 1) voies[i].position.add(new DoubleProperty[]{x, y});
+        if(vehicule == 2) voies[i].position2.add(new DoubleProperty[]{x, y});
+
+        //Définition de la Timeline en fonction du sens de la voie
+        if(voies[i].sens==1) {
+            timeline = new Timeline(
                     new KeyFrame(Duration.seconds(0),
                             new KeyValue(x, -d_x),
                             new KeyValue(y, (i + 1) * d_y)
@@ -258,7 +297,59 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             new KeyValue(y, (i + 1) * d_y)
                     )
             );
+        }
+        else{
+             timeline = new Timeline(
+                    new KeyFrame(Duration.seconds(0),
+                            new KeyValue(x, W),
+                            new KeyValue(y, (i + 1) * d_y)
+                    ),
+
+                    new KeyFrame(Duration.seconds(voies[i].getVitesse()),
+                            new KeyValue(x, -d_x),
+                            new KeyValue(y, (i + 1) * d_y)
+                    )
+            );
+
+        }
+        if(vehicule == 1) {
+            voies[i].voiture1 = true;
+            voies[i].timeline = timeline;
             voies[i].timeline.play();
+        }
+        if(vehicule == 2) {
+            voies[i].voiture2 = true;
+            voies[i].timeline2 = timeline;
+            voies[i].timeline2.play();
+        }
+
+    }
+
+    /**
+     * Méthode qui met à jour les booléen indiquant la possibilité d'une création d'un autre véhicule
+     * sur une même voie
+     * @param x position de la voiture sur la voie i
+     * @param i voie
+     * @param vehicule le vehicule actuellement sur la voie
+     */
+    private void condition_creation(int x, int i, int vehicule){
+        //En fonction du sens de la voie, les conditions diffèrent
+        switch (voies[i].sens){
+            case 1 :
+                if(vehicule==1) {
+                    voies[i].voiture1 = x <= 3 * d_x;
+                }
+                if(vehicule==2) {
+                    voies[i].voiture2 = x <= 3 * d_x;
+                }
+                break;
+            case -1:
+                if(vehicule==1) {
+                    voies[i].voiture1 =  x > (500 - 2 * d_x);
+                }
+                if(vehicule==2) {
+                    voies[i].voiture2 = x > (500 - 2 * d_x);
+                }
         }
     }
 

@@ -12,18 +12,29 @@ public class Voie implements Velo, Voiture{
     private int flag = (int)(Math.random() + 1);
     private int vehiculeInterface[];
     private final double vitesse;
+
+    public boolean voiture1 = true; //Booléen qui indique si la voiture1 empêche la création de la voiture2
+    public boolean voiture2 = false;
+
     public boolean is_timeline=false; //booléen indiquant si une timeline est défini sur cette voie
+    public boolean is_timeline2 = false;
+
     public Timeline timeline; //timeline de la voie
+    public Timeline timeline2;
+
     public ArrayList<DoubleProperty[]> position = new ArrayList<>(); //liste qui contient les positions des voitures sur cette voie
+    public ArrayList<DoubleProperty[]> position2 = new ArrayList<>();
 
+    public int sens; //sens de la voie (1 : de la gauche vers la droite et -1: droite vers la gauche)
 
-    public Voie(String name, int level, int taille)
+    public Voie(String name, int level, int taille, int sens)
     {
         this.name = name;
         this.level = level;
         this.vehicule = new int[taille];
         this.vehiculeInterface = new int[]{idVelo, idVoiture};
         this.vitesse = Math.random() * (3 - level) + 1;
+        this.sens = sens;
     }
 
     public String getName()
@@ -72,6 +83,8 @@ public class Voie implements Velo, Voiture{
 
         return d < 0.01;
     }
+
+
 
     public void avancerVelo(int i)
     {

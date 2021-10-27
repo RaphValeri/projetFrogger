@@ -36,7 +36,12 @@ public class Plateau {
 
             if(i > 0 && i < this.hauteur - 1)
             {
-                this.voie[i - 1] = new util.Voie("Voie " + i, 1, largeur);
+                //Création des voies en utilisant une loi d'équiprobabilité sur le sens de chaque voie
+                double d = Math.random();
+                int sens;
+                if(d<=0.5) sens = 1;
+                else sens = -1;
+                this.voie[i - 1] = new util.Voie("Voie " + i, 1, largeur, sens);
             }
         }
 
