@@ -184,6 +184,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                         voies = plateau.voie;
                         actualisation();
                         this.start();
+                        frog.setPosition(W/2-d_x/2, H+d_y);
                         root.getChildren().remove(1);
                     });
 
@@ -192,6 +193,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                         voies = plateau.voie;
                         actualisation();
                         this.start();
+                        frog.setPosition(W/2-d_x/2, H+d_y);
                         root.getChildren().remove(1);
                     });
 
