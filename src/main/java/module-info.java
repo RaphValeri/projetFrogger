@@ -10,10 +10,11 @@ module com.example.projetfrogger {
     exports graphicalElements;
     opens graphicalElements to javafx.graphics;
 
-    exports TEST;
-    opens TEST to org.junit.platform.commons;
+    //exports TEST;
+    //opens TEST to org.junit.platform.commons;
 
     exports gameCommons;
     exports frog;
     exports util;
+
 }
