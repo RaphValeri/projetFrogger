@@ -4,8 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.io.*;
-import java.nio.file.*;
-import java.util.Arrays;
 
 
 public class Plateau {
@@ -16,7 +14,6 @@ public class Plateau {
     int level;
     private final int nScore = 10;
 
-    //private Jeu;
 
     public Plateau(int largeur, int hauteur, int level)
     {
@@ -50,15 +47,16 @@ public class Plateau {
 
     }
 
+    /**
+     * enregistrerPartie enregistre un nouveau score parmi les meilleurs scores precedement obtenus.
+     * @param
+     * file (chemin du fichier).
+     * score (score de la partie).
+     * @return
+     * 0 si tout s'est passe correctement, 1 si une erreur a ete detecte.
+     */
     public void enregistrerPartie(String file, int score)
     {
-        /*
-         * enregistrerPartie enregistre un nouveau score parmi les meilleurs scores precedement obtenus.
-         * Parametre:
-         * file: chemin du fichier.
-         * score: score obtenu.
-        * Return (void).*/
-
         int[] tabScore = recupererPartie(file);
 
         if(score > tabScore[0])
@@ -70,13 +68,15 @@ public class Plateau {
         int j = enregistrerScore(file, tabScore);
     }
 
+    /**
+     * enregistrerScore enregistre un tableau des scores.
+     * @param
+     * file (chemin du fichier).
+     * tab (tableau des scores).
+     * @return
+     * 0 si tout s'est passe correctement, 1 si une erreur a ete detecte.
+     */
     public int enregistrerScore(String file, int[] tab) {
-        /*
-         * AfficherVoie enregistre un tableau des scores.
-         * Parametre:
-         * file: chemin du fichier.
-         * tab: tableau des scores.
-         * Return 1 si la transcription n'est pas complete, 0 sinon.*/
 
         try {
             FileWriter fw = new FileWriter(file, false);
@@ -109,13 +109,15 @@ public class Plateau {
         return 0;
     }
 
+    /**
+     * recupererPartie recupere dans un fichier le tableau des scores.
+     * @param
+     * file (chemin du fichier).
+     * @return
+     * Le tableau des dix meilleurs scores.
+     */
     public int[] recupererPartie(String file)
     {
-        /*
-         * recupererPartie recupere dans un fichier le tableau des scores.
-         * Parametre:
-         * file: chemin du fichier.
-         * Return (void).*/
         int [] tabScore = new int[nScore];
         int i = 0;
 
@@ -145,15 +147,30 @@ public class Plateau {
 
 
 
-
+    /**
+     * getLevel indique la hauteur de la partie.
+     * Le nombre de voie est egale a la hauteur auquelle on soustrait deux.
+     * @return
+     * La hauteur de la partie.
+     */
     public int getHauteur() {
         return hauteur;
     }
 
+    /**
+     * getLevel indique la largeur du plateau.
+     * @return
+     * La largeur du plateau.
+     */
     public int getLargeur() {
         return largeur;
     }
 
+    /**
+     * getLevel indique le niveau de la partie.
+     * @return
+     * Le niveau de la partie.
+     */
     public int getLevel() {
         return level;
     }

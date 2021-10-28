@@ -17,15 +17,6 @@ class VoieTest {
     }
 
     @Test
-    @DisplayName("Test du getter Level")
-    void getLevel() {
-        Voie v1 = new Voie("Voie 1", 1, 1, 1);
-        Voie v2 = new Voie("Voie 2", 4, 2, 1);
-        assertEquals(1, v1.getLevel());
-        assertEquals(4, v2.getLevel());
-    }
-
-    @Test
     @DisplayName("Test du getter Vehicule")
     void getVehicule() {
         Voie v1 = new Voie("Voie 1", 1, 1, 1);
