@@ -182,7 +182,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
                     frog.setLife(1);
 
-                    Button bt1 = new Button("Play again");
+                    Button bt1 = new Button("Try again");
                     bt1.setPrefSize(W/6, H/4);
                     Button bt2 = new Button("Next level");
                     bt2.setPrefSize(W/6, H/4);
@@ -213,7 +213,11 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
                     bt4.setOnMouseClicked((MouseEvent ME) -> plateau.enregistrerPartie("test.txt", plateau.getLevel()));
 
-                    HBox HB = new HBox(bt1, bt2, bt3, bt4);
+                    HBox HB;
+                    if (!game.victoire) {
+                        HB = new HBox(bt1, bt3, bt4);
+                    } else {HB = new HBox(bt1, bt2, bt3, bt4);}
+
                     HB.setAlignment(Pos.CENTER);
                     root.getChildren().add(HB);
                 }
@@ -300,13 +304,13 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
      */
     private void actu_timelines(){
         for(int i=0; i<voies.length; i++){
-            if(voies[i].is_timeline){
+            if(voies[i].is_timeline & voies[i].timeline != null){
                 if(voies[i].timeline.getStatus()==Animation.Status.STOPPED){
                     voies[i].is_timeline = false;
                     voies[i].timeline.stop(); // on arrête réellement la timeline
                 }
             }
-            if(voies[i].is_timeline2){
+            if(voies[i].is_timeline2 & voies[i].timeline2 != null){
                 if(voies[i].timeline2.getStatus()==Animation.Status.STOPPED){
                     voies[i].is_timeline2 = false;
                     voies[i].timeline2.stop(); // on arrête réellement la timeline
@@ -370,11 +374,13 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             new KeyValue(y, (i + 1) * d_y)
                     ),
 
-                    new KeyFrame(Duration.seconds(voies[i].getVitesse()),
+                    new KeyFrame(Duration.seconds(1),
                             new KeyValue(x, W),
                             new KeyValue(y, (i + 1) * d_y)
                     )
             );
+
+            timeline.setRate(voies[i].getVitesse());
         }
         else{
              timeline = new Timeline(
@@ -383,11 +389,13 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             new KeyValue(y, (i + 1) * d_y)
                     ),
 
-                    new KeyFrame(Duration.seconds(voies[i].getVitesse()),
+                    new KeyFrame(Duration.seconds(1),
                             new KeyValue(x, -dx),
                             new KeyValue(y, (i + 1) * d_y)
                     )
             );
+
+            timeline.setRate(voies[i].getVitesse());
 
         }
         if(vehicule == 1) {
