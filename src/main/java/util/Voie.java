@@ -4,14 +4,16 @@ import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Voie implements Velo, Voiture{
+public class Voie implements Velo, Voiture, Camion{
     private final String name;
     private final int level;
     private int vehicule[];     //position des vehicule dans la voie.
     private int flag = (int)(Math.random() + 1);
     private int vehiculeInterface[];
     private final double vitesse;
+    private final int type;
 
     public boolean voiture1 = true; //Booléen qui indique si la voiture1 empêche la création de la voiture2
     public boolean voiture2 = false;
@@ -32,8 +34,10 @@ public class Voie implements Velo, Voiture{
         this.name = name;
         this.level = level;
         this.vehicule = new int[taille];
-        this.vehiculeInterface = new int[]{idVelo, idVoiture};
+        this.vehiculeInterface = new int[]{idVelo, idVoiture, idCamion};
         this.vitesse = Math.random() * (3 - level) + 1;
+        int rd = new Random().nextInt(2);
+        this.type = rd * tailleVoiture + (1 - rd) * tailleCamion;
         this.sens = sens;
     }
 
@@ -67,6 +71,11 @@ public class Voie implements Velo, Voiture{
         * getVitesse permet d'acceder a la variable vehicule.
         * Renvoie la variable vehicule.*/
         return this.vitesse;
+    }
+
+    public int getType()
+    {
+        return this.type;
     }
 
     public void setVehicleCoef(int coef, int i)

@@ -3,16 +3,14 @@ package graphicalElements;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.beans.property.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -22,11 +20,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import util.Direction;
 import gameCommons.Game;
@@ -57,9 +50,9 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
     //Images
     Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
-    Image car_img = new Image(imageVehicule(), d_x, d_y, false, false);
+    Image car_img = new Image(imageVehicule()[0], d_x, d_y, false, false);
+    Image truck_img = new Image(imageVehicule()[1], d_x, d_y, false, false);
     Image background_img = new Image(imageBackground(), W, H+2*d_y, false, false);
-
 
     @Override
     /**
@@ -109,8 +102,16 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
                             condition_creation(x, i, 1);
 
+                            Image img = car_img;
+                            double dx = d_x;
+                            if (voies[i].getType() == 3) {
+                                img = truck_img;
+                                dx = 1.5 * d_x;
+                            }
 
-                            gc.drawImage(car_img, x, y, d_x, d_y);
+                            if (voies[i].sens == 1) {
+                                gc.drawImage(img, x, y, dx, d_y);
+                            } else { gc.drawImage(rotate(img), x, y, dx, d_y);}
 
 
                             //Affichage de la grenouille
@@ -142,7 +143,17 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                             int y = (int) voies[i].position2.get(j)[1].doubleValue();
 
                             condition_creation(x, i, 2);
-                            gc.drawImage(car_img, x, y, d_x, d_y);
+
+                            Image img = car_img;
+                            double dx = d_x;
+                            if (voies[i].getType() == 3) {
+                                img = truck_img;
+                                dx = 1.5 * d_x;
+                            }
+
+                            if (voies[i].sens == 1) {
+                                gc.drawImage(img, x, y, dx, d_y);
+                            } else { gc.drawImage(rotate(img), x, y, dx, d_y);}
 
 
                             //Affichage de la grenouille
@@ -257,9 +268,11 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
      * Retourne le path de l'image de la voiture
      * @return le chemin d'accès à l'image de la voiture
      */
-    public String imageVehicule()
+    public String[] imageVehicule()
     {
-        return "file:src/main/java/graphicalElements/car_img.png";
+        return new String[]{
+                "file:src/main/java/graphicalElements/car_img.png",
+                "file:src/main/java/graphicalElements/truck_img.png"};
     }
 
     /**
@@ -269,6 +282,15 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
     public String imageBackground()
     {
         return "file:src/main/java/graphicalElements/background_img.png";
+    }
+
+    public Image rotate(Image img) {
+        ImageView IV = new ImageView();
+        IV.setImage(img);
+        IV.setRotate(180);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        return IV.snapshot(params, null);
     }
 
     /**
@@ -332,11 +354,17 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
         if(vehicule == 1) voies[i].position.add(new DoubleProperty[]{x, y});
         if(vehicule == 2) voies[i].position2.add(new DoubleProperty[]{x, y});
 
+        double dx = d_x;
+        if (voies[i].getType() == 3) {
+            dx = 1.5 * d_x;
+        }
+
         //Définition de la Timeline en fonction du sens de la voie
         if(voies[i].sens==1) {
+
             timeline = new Timeline(
                     new KeyFrame(Duration.seconds(0),
-                            new KeyValue(x, -d_x),
+                            new KeyValue(x, -dx),
                             new KeyValue(y, (i + 1) * d_y)
                     ),
 
@@ -354,7 +382,7 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                     ),
 
                     new KeyFrame(Duration.seconds(voies[i].getVitesse()),
-                            new KeyValue(x, -d_x),
+                            new KeyValue(x, -dx),
                             new KeyValue(y, (i + 1) * d_y)
                     )
             );
