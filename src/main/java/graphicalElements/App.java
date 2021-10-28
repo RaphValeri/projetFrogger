@@ -179,6 +179,8 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                     bt2.setPrefSize(W/6, H/4);
                     Button bt3 = new Button("Quit");
                     bt3.setPrefSize(W/6, H/4);
+                    Button bt4 = new Button("Save game");
+                    bt4.setPrefSize(W/6, H/4);
 
                     bt1.setOnMouseClicked((MouseEvent ME) -> {
                         plateau = new Plateau(W/d_x, H/d_y + 2, plateau.getLevel());
@@ -200,7 +202,9 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
                     bt3.setOnMouseClicked((MouseEvent ME) -> System.exit(0));
 
-                    HBox HB = new HBox(bt1, bt2, bt3);
+                    bt4.setOnMouseClicked((MouseEvent ME) -> plateau.enregistrerPartie("test.txt", plateau.getLevel()));
+
+                    HBox HB = new HBox(bt1, bt2, bt3, bt4);
                     HB.setAlignment(Pos.CENTER);
                     root.getChildren().add(HB);
                 }

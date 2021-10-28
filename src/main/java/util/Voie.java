@@ -33,7 +33,7 @@ public class Voie implements Velo, Voiture{
         this.level = level;
         this.vehicule = new int[taille];
         this.vehiculeInterface = new int[]{idVelo, idVoiture};
-        this.vitesse = Math.random() * (3 - level) + 1;
+        this.vitesse = Math.random() * (10 - level) + 1;
         this.sens = sens;
     }
 
