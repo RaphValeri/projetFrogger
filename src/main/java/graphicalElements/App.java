@@ -20,17 +20,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import util.Direction;
+import util.*;
 import gameCommons.Game;
 import frog.Frog;
-import util.Plateau;
-import util.Voie;
 
 
 /**
  * Classe qui gère l'IHM du jeu Frogger
  */
-public class App extends Application implements IFroggerGraphics, VoitureGraphics {
+public class App extends Application implements IFroggerGraphics, Voiture, Camion {
 
     // canvas dimensions
     public static final int W = 500; //largeur de la route
@@ -49,8 +47,8 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
 
     //Images
     Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
-    Image car_img = new Image(imageVehicule()[0], d_x, d_y, false, false);
-    Image truck_img = new Image(imageVehicule()[1], d_x, d_y, false, false);
+    Image car_img = new Image(imageVoiture, d_x, d_y, false, false);
+    Image truck_img = new Image(imageCamion, d_x, d_y, false, false);
     Image background_img = new Image(imageBackground(), W, H+2*d_y, false, false);
 
     @Override
@@ -279,16 +277,6 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
         return "file:src/main/java/graphicalElements/frog_img.png";
     }
 
-    /**
-     * Retourne le path de l'image de la voiture
-     * @return le chemin d'accès à l'image de la voiture
-     */
-    public String[] imageVehicule()
-    {
-        return new String[]{
-                "file:src/main/java/graphicalElements/car_img.png",
-                "file:src/main/java/graphicalElements/truck_img.png"};
-    }
 
     /**
      * Retourne le path de l'image de fond de l'application

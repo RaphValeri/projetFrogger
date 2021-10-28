@@ -15,10 +15,6 @@ class AppTest {
     }
 
     @Test
-    void imageVehicule() {
-    }
-
-    @Test
     void imageBackground() {
     }
 
