@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import util.Direction;
@@ -165,7 +166,6 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                                 gc.setFill(Color.BLACK);
                                 gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
                                 gc.fillText("GAME OVER !!", W / 3, H / 2 + d_y);
-
                             }
                             if (frog.getPosition()[1] == 0) {
                                 game.victoire = true;
@@ -181,6 +181,15 @@ public class App extends Application implements IFroggerGraphics, VoitureGraphic
                     this.stop(); //Arrêt de l'animation en cas de collision
 
                     frog.setLife(1);
+
+                    int[] tabScore = plateau.recupererPartie("test.txt");   //Affiche les meilleurs scores.
+
+                    for(int k = 0; k < tabScore.length; ++k)
+                    {
+                        System.out.println(10 - k + ". " + tabScore[k]);
+                    }
+
+
 
                     Button bt1 = new Button("Try again");
                     bt1.setPrefSize(W/6, H/4);
