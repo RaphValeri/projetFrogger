@@ -3,7 +3,6 @@ package graphicalElements;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.beans.property.*;
-
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -20,7 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import util.Direction;
 import gameCommons.Game;
 import frog.Frog;

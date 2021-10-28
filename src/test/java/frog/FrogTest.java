@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FrogTest {
 
     @Test
-    @DisplayName("Test du getteur position")
+    @DisplayName("Test du getter position")
     void getPosition() {
         var f1 = new Frog(new int[]{0, 4} , 1);
         var f2 = new Frog(new int[]{3, 1} , 1);
@@ -21,7 +21,7 @@ class FrogTest {
     }
 
     @Test
-    @DisplayName("Test du setteur position")
+    @DisplayName("Test du setter position")
     void setPosition() {
         var f1 = new Frog(new int[]{2, 5} , 1);
         var f2 = new Frog(new int[]{0, 3} , 0);
@@ -32,7 +32,7 @@ class FrogTest {
     }
 
     @Test
-    @DisplayName("Test du getteur life")
+    @DisplayName("Test du getter life")
     void getLife() {
         var f1 = new Frog(new int[]{2, 5}, 0);
         var f2 = new Frog(new int[]{1, 2}, 1);
@@ -41,7 +41,7 @@ class FrogTest {
     }
 
     @Test
-    @DisplayName("Test du setteur life")
+    @DisplayName("Test du setter life")
     void setLife() {
         var f1 =new Frog(new int[]{2, 5}, 0);
         var f2 =new Frog(new int[]{0, 1}, 1);
@@ -52,7 +52,7 @@ class FrogTest {
     }
 
     @Test
-    @DisplayName("Test du getteur Direction")
+    @DisplayName("Test du getter Direction")
     void getDirection() {
         var f1 = new Frog(new int[]{3, 1}, 0);
         var f2 = new Frog(new int[]{0, 0}, 1);
@@ -61,7 +61,7 @@ class FrogTest {
     }
 
     @Test
-    @DisplayName("Test du setteur direction")
+    @DisplayName("Test du setter direction")
     void setDirection() {
         var f1 = new Frog(new int[]{3, 1}, 0);
         f1.setDirection(Direction.DOWN);
