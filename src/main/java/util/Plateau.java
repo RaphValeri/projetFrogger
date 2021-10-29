@@ -7,32 +7,21 @@ import java.io.*;
 
 
 public class Plateau {
-    private final util.Case[][] plateau;     //Plateau du jeu, etat des cases.
     public util.Voie[] voie;      //Voies du jeu.
     int hauteur ;       //dimension du plateau.
     int largeur ;
     int level;
     private final int nScore = 10;
 
-
     public Plateau(int largeur, int hauteur, int level)
     {
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.level = level;
-        this.plateau = new util.Case[this.hauteur][largeur];     //Initialisation plateau de Case.
         this.voie = new util.Voie[this.hauteur - 2];     //Initialisation des voies.
 
-        for(int i = 0; i < this.hauteur; i++)       //Cretion des cases du plateau avec leur etat.
+        for(int i = 0; i < this.hauteur; i++)
         {
-            for(int j = 0; j < largeur; j++)
-            {
-                if(i == 0 || i == hauteur - 1)
-                    this.plateau[i][j] = new util.Case(1);
-                else
-                    this.plateau[i][j] = new util.Case(0);
-            }
-
             if(i > 0 && i < this.hauteur - 1)
             {
                 //Création des voies en utilisant une loi d'équiprobabilité sur le sens de chaque voie
@@ -142,10 +131,6 @@ public class Plateau {
 
         return tabScore;
     }
-
-
-
-
 
     /**
      * getLevel indique la hauteur de la partie.
