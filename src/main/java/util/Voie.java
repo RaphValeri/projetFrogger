@@ -28,7 +28,7 @@ public class Voie implements Voiture, Camion{
     public Voie(String name, int level, int taille, int sens)
     {
         this.name = name;
-        this.vitesse = 1.1 - 1 / Math.pow(level, 0.1);
+        this.vitesse = (1.1 + 0.05 * (Math.random() - 0.5)) - (1 / Math.pow(level, 0.1));
         int rd = new Random().nextInt(2);
         this.type = rd * tailleVoiture + (1 - rd) * tailleCamion;
         this.sens = sens;
