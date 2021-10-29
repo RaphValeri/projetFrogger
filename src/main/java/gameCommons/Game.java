@@ -1,11 +1,9 @@
 package gameCommons;
 import util.Direction;
 import util.Plateau;
-import util.Voie;
 import frog.Frog;
-import graphicalElements.App;
 
-public class Game implements IEnvironment, IFrog {
+public class Game implements IFrog {
     //Instentiation des objets utiles pour le jeu : un plateau, une grenouille...
 
     public Frog frog = new Frog(new int[2] , 1);
@@ -25,6 +23,12 @@ public class Game implements IEnvironment, IFrog {
     }
 
     @Override
+    /**
+     * Fait évoluer la position de la grenouille d'une case dans la direction donnée en entrée
+     * si le déplacement est possible sans sortir du plateau de jeu
+     * @param dir
+     *          Direction dans laquelle doit se déplacer la grenouille
+     */
     public void deplacementFrog(Direction dir){
         //Modification de la position de la grenouille
         //en vérifiant que le déplacement est possible
@@ -53,11 +57,4 @@ public class Game implements IEnvironment, IFrog {
         }
     }
 
-    public int main(String[] args) {
-        while(frog.getLife()==1 & !victoire){
-            System.out.println("");
-
-        }
-        return 0;
-    }
 }
