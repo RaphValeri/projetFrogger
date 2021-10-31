@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.io.*;
 
-
+/**
+ * Classe Plateau pour les donnees de l'environnement.
+ */
 public class Plateau {
     public util.Voie[] voie;      //Voies du jeu.
     int hauteur ;       //dimension du plateau.

@@ -6,6 +6,9 @@ import javafx.beans.property.DoubleProperty;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Classe Voie pour gerer les voies de circulations.
+ */
 public class Voie implements Voiture, Camion{
     private final String name;
     private final double vitesse;
