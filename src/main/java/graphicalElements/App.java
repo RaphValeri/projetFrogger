@@ -46,10 +46,13 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
 
     //Images
-    Image frog_img = new Image(imageFrog(),d_x, d_y, false, false);
+    Image frog_img = imageFrog(d_x, d_y);
     Image car_img = new Image(imageVoiture, d_x, d_y, false, false);
     Image truck_img = new Image(imageCamion, d_x, d_y, false, false);
-    Image background_img = new Image(imageBackground(), W, H+2*d_y, false, false);
+    Image background_img =imageBackground(W, H+2*d_y);
+
+    public App() throws Exception {
+    }
 
     @Override
     /**
@@ -269,24 +272,61 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     *Retourne le path de l'image de la grenouille
-     * @return le chemin d'accès à l'image de la grenouille
+     *Retourne l'image de la grenouille
+     * @param dx
+     *          largeur souhaitée de l'image
+     * @param dy
+     *          hauteur souhaitée de l'image
+     * @return Image de la grenouille
+     * @throws Exception Exception levée en cas de ressource non valide
      */
-    public String imageFrog()
-    {
-        return "file:src/main/java/graphicalElements/frog_img.png";
+    public Image imageFrog(int dx, int dy) throws Exception{
+        try {
+            String ressource = "file:src/main/java/graphicalElements/frog_img.png";
+            Image im = new Image(ressource, dx, dy, false, false);
+            return im;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ressource image grenouille non valide");
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
     /**
-     * Retourne le path de l'image de fond de l'application
-     * @return le chemin d'accès à l'image de fond
+     * Chargement de l'image de fond
+     * @param dx
+     *          largeur souhaitée de l'image
+     * @param dy
+     *          hauteur souhaitée de l'image
+     * @return Image de fond
+     * @throws Exception Exception levée lorsque la ressource est mal renseignée
      */
-    public String imageBackground()
+    public Image imageBackground(int dx, int dy) throws Exception
     {
-        return "file:src/main/java/graphicalElements/background_img.png";
+        try{
+            String ressource =  "file:src/main/java/graphicalElements/background_img.png";
+            Image im = new Image(ressource, dx, dy, false, false);
+            return im;
+        } catch (IllegalArgumentException e){
+            System.out.println("Ressource image de fond non valide");
+            e.printStackTrace();
+            return null;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
+    /**
+     * Rotation de 180° d'une image
+     * @param img Image à laquelle on souhaite faire effectuer uen rotation
+     * @return image qui a effectuée une rotation de 180°
+     */
     public Image rotate(Image img) {
         ImageView IV = new ImageView();
         IV.setImage(img);
