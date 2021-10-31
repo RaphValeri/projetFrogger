@@ -47,9 +47,9 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
     //Images
     Image frog_img = imageFrog(d_x, d_y);
-    Image car_img = new Image(imageVoiture, d_x, d_y, false, false);
-    Image truck_img = new Image(imageCamion, d_x, d_y, false, false);
-    Image background_img =imageBackground(W, H+2*d_y);
+    Image car_img = imageVehicules(imageVoiture, d_x, d_y);
+    Image truck_img = imageVehicules(imageCamion, d_x, d_y);
+    Image background_img = imageBackground(W, H+2*d_y);
 
     public App() throws Exception {
     }
@@ -313,6 +313,31 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
             return im;
         } catch (IllegalArgumentException e){
             System.out.println("Ressource image de fond non valide");
+            e.printStackTrace();
+            return null;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    /**
+     * Chargement d'une image de véhicule
+     * @param res path de l'image à charger
+     * @param dx  largeur souhaitée pour l'image
+     * @param dy  hauteur souhaitée pour l'image
+     * @return Image d'un véhicule
+     * @throws Exception Exception levée en cas de ressource non valide
+     */
+    public Image imageVehicules(String res, int dx, int dy) throws Exception
+    {
+        try{
+            String ressource = res;
+            Image im = new Image(ressource, dx, dy, false, false);
+            return im;
+        } catch (IllegalArgumentException e){
+            System.out.println("Ressource image du véhicule non valide");
             e.printStackTrace();
             return null;
         }catch (Exception e) {
