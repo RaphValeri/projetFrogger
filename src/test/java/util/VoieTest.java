@@ -25,11 +25,11 @@ class VoieTest {
     @Test
     @DisplayName("Test du getter vitesse")
     void getVitesse() {
-        Voie v = new Voie("Voie 1", 2, 1, 1);
         int level =2;
         float vitesse_moyenne = 0;
         for(int i=0; i<1000; i++){
-            double vitesse = (1.1 + 0.05 * (Math.random() - 0.5)) - 1 / Math.pow(level, 0.1);
+            Voie v = new Voie("Voie 1", 2, 1, 1);
+            double vitesse = v.getVitesse();
             vitesse_moyenne += vitesse;
         }
         vitesse_moyenne /=1000;
@@ -42,10 +42,9 @@ class VoieTest {
     void getType() {
         float c_voiture = 0;
         float c_camion = 0;
-        Voie v = new Voie("Voie 1", 1, 10, 1);
         for(int i=0; i<1000; i++){
-            int rd = new Random().nextInt(2);
-            int type = rd * Voiture.tailleVoiture + (1 - rd) * Camion.tailleCamion;
+            Voie v = new Voie("Voie 1", 1, 10, 1);
+            int type = v.getType();
             if(type == Voiture.tailleVoiture) c_voiture+=1;
             else c_camion+=1;
         }
