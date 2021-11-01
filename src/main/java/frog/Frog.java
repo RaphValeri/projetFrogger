@@ -29,8 +29,4 @@ public class Frog {
                 Arrays.toString(this.position), this.life);
     }
 
-    public static void main(String[] args) {
-        Frog F = new Frog(new int[]{0, 0}, 0);
-        System.out.println(F);
-    }
 }
