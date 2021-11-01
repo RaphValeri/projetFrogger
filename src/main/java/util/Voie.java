@@ -17,8 +17,8 @@ public class Voie implements Voiture, Camion{
     public boolean voiture1 = true; //Booléen qui indique si la voiture1 empêche la création de la voiture2
     public boolean voiture2 = false;
 
-    public boolean is_timeline=false; //booléen indiquant si une timeline est défini sur cette voie
-    public boolean is_timeline2 = false;
+    public boolean is_timeline=false; //booléen indiquant si une timeline est définie sur cette voie
+    public boolean is_timeline2 = false; //booléen indiquant si une 2eme timeline est définie sur cette voie
 
     public Timeline timeline; //timeline de la voie
     public Timeline timeline2;
@@ -38,7 +38,7 @@ public class Voie implements Voiture, Camion{
     }
 
     /**
-     * getType indique l'identifiant de la voie.
+     * getName indique l'identifiant de la voie.
      * @return
      * Le nom de la voie.
      */
@@ -49,7 +49,7 @@ public class Voie implements Voiture, Camion{
 
 
     /**
-     * getType indique la vitesse des vehicule sur la voie.
+     * getVitesse indique la vitesse des vehicule sur la voie.
      * @return
      * La vitesse des vehicules sur la voie.
      */
