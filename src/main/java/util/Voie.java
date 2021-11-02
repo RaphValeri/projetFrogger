@@ -28,6 +28,13 @@ public class Voie implements Voiture, Camion{
 
     public int sens; //sens de la voie (1 : de la gauche vers la droite et -1: droite vers la gauche)
 
+    /**
+     * Constructeur de la classe Voie
+     * @param name Nom de la voie
+     * @param level Niveau de la parie à laquelle est associée la voie
+     * @param taille Largeur de la voie
+     * @param sens Sens de la voie (1 de gauche à droite, -1 sinon)
+     */
     public Voie(String name, int level, int taille, int sens)
     {
         this.name = name;

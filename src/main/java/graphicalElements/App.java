@@ -68,7 +68,6 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
         final Canvas canvas = new Canvas(W, H+2*d_y);
 
-        // Group root = new Group();
         StackPane root = new StackPane();
         Scene theScene = new Scene( root );
         stage.setScene( theScene );
@@ -86,8 +85,6 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.clearRect(0, H + d_y, W, d_y);
                 gc.drawImage(background_img, 0, 0, W, H + 2 * d_y);
-                //gc.setFill(Color.CORNSILK);
-                //gc.fillRect(0, d_y, W, H);
 
                 theScene.setOnKeyPressed(this::KeyPressed);
 
@@ -122,21 +119,15 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
                             if ((frog.getPosition()[0] - d_x <= x) & (x <= (frog.getPosition()[0]) & y == frog.getPosition()[1])) {
                                 System.out.println("GAME OVER !!!!");
                                 frog.setLife(0);
-                                gc.setFill(Color.BLACK);
-                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-                                gc.fillText("GAME OVER !!", W / 3, H / 2 + d_y);
 
                             }
                             if (frog.getPosition()[1] == 0) {
                                 game.victoire = true;
-                                gc.setFill(Color.BLACK);
-                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-                                gc.fillText("Gagné !!", W / 3, H / 2 + d_y);
                             }
                         }
                     }
                     if (voies[i].is_timeline2) {
-                        //S'il y a une timeline sur la voie (c-a-d une voiture) on affiche la voiture
+                        //S'il y a une 2eme timeline sur la voie (c-a-d un 2eme vehicule) on affiche le vehicule
                         for (int j = 0; j < voies[i].position2.size(); j++) {
 
                             int x = (int) voies[i].position2.get(j)[0].doubleValue();
@@ -164,15 +155,9 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
                             if ((frog.getPosition()[0] - d_x <= x) & (x <= (frog.getPosition()[0]) & y == frog.getPosition()[1])) {
                                 System.out.println("GAME OVER !!!!");
                                 frog.setLife(0);
-                                gc.setFill(Color.BLACK);
-                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-                                gc.fillText("GAME OVER !!", W / 3, H / 2 + d_y);
                             }
                             if (frog.getPosition()[1] == 0) {
                                 game.victoire = true;
-                                gc.setFill(Color.BLACK);
-                                gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
-                                gc.fillText("Gagné !!", W / 3, H / 2 + d_y);
                             }
                         }
                     }
@@ -362,7 +347,7 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     * Arrêt des animations sur les voies pour lesquels la voiture est arrivée à la fin de la voie
+     * Arrêt des animations pour les vehicules arrivés à la fin de la voie
      */
     private void actu_timelines(){
         for(int i=0; i<voies.length; i++){
@@ -382,7 +367,7 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     * Ajout d'une animation (timeline) sur les voies qui n'en ont pas avec une probabilité
+     * Ajout d'une animation (timeline) sur les voies qui peuvent contenir un vehicule de plus avec une probabilité
      * définie dans la classe Voie avec le booléen passage.
      * @see Voie
      */
@@ -398,9 +383,9 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
                 }
             };
             if(!voies[i].is_timeline2 & !voies[i].voiture1){
-                //S'il n'y a pas de timeline sur la voie (ie pas de voitures)
+                //S'il n'y a pas une 2eme timeline et que le vehicule 1 n'empêche pas la création d'un autre
                 if(voies[i].passage()){
-                    //Ajout d'une timeline avec une probabilité définie par le booléen passage
+                    //Ajout d'une autre timeline avec une probabilité définie par le booléen passage
                     voies[i].is_timeline2 = true;
                     creation_timeline(i, 2);
                 }
@@ -503,7 +488,10 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
 
 
-    public static void main(String[] args) { launch(args); }
+    public static int main(String[] args) {
+        launch(args);
+        return 0;
+    }
 
 
 }

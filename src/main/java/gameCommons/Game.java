@@ -3,6 +3,9 @@ import util.Direction;
 import util.Plateau;
 import frog.Frog;
 
+/**
+ * Déroulement du jeu en fonction des actions de l'utilisateur
+ */
 public class Game implements IFrog {
     //Instentiation des objets utiles pour le jeu : un plateau, une grenouille...
 
@@ -14,6 +17,17 @@ public class Game implements IFrog {
     public int H;
     public int W;
 
+    /**
+     * Constructeur de la classe Game
+     * @param dx
+     *          largeur d'une case du plateau utilisé pour le jeu
+     * @param dy
+     *          hauteur d'une case du plateau utilisé pour le jeu
+     * @param height
+     *              hauteur du plateau utilisé pour le jeu
+     * @param W
+     *         largeur du plateau utilisé pour le jeu
+     */
     public Game(int dx, int dy, int height, int W){
         this.d_x = dx;
         this.d_y = dy;
@@ -30,13 +44,12 @@ public class Game implements IFrog {
      *          Direction dans laquelle doit se déplacer la grenouille
      */
     public void deplacementFrog(Direction dir){
-        //Modification de la position de la grenouille
-        //en vérifiant que le déplacement est possible
 
         int x = frog.getPosition()[0];
         int y = frog.getPosition()[1];
 
-        int x_lim = this.W; // Changer les limites avec les dimensions de la fenetre
+        //Valeurs limites du plateau
+        int x_lim = this.W;
         int y_lim = this.H + d_y;
 
         switch(dir){

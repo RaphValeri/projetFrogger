@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Interface voiture pour generer des camions sur les voies.
+ * Interface camion pour generer des camions sur les voies.
  */
 public interface Camion {
     public int idCamion = 3;

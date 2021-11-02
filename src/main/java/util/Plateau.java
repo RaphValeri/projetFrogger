@@ -15,6 +15,15 @@ public class Plateau {
     int level;
     private final int nScore = 10;
 
+    /**
+     * Constructeur de la classe Plateau
+     * @param largeur
+     *               largeur des voies du plateau
+     * @param hauteur
+     *              Nombres de voies + 2 pour les trottoirs
+     * @param level
+     *              Niveau de la partie à laquelle le plateau est associée
+     */
     public Plateau(int largeur, int hauteur, int level)
     {
         this.hauteur = hauteur;
@@ -43,8 +52,6 @@ public class Plateau {
      * @param
      * file (chemin du fichier).
      * score (score de la partie).
-     * @return
-     * 0 si tout s'est passe correctement, 1 si une erreur a ete detecte.
      */
     public void enregistrerPartie(String file, int score)
     {
@@ -135,7 +142,7 @@ public class Plateau {
     }
 
     /**
-     * getLevel indique la hauteur de la partie.
+     * getHauteur indique la hauteur de la partie.
      * Le nombre de voie est egale a la hauteur auquelle on soustrait deux.
      * @return
      * La hauteur de la partie.
@@ -145,7 +152,7 @@ public class Plateau {
     }
 
     /**
-     * getLevel indique la largeur du plateau.
+     * getLargeur indique la largeur du plateau.
      * @return
      * La largeur du plateau.
      */
