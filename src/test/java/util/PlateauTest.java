@@ -24,17 +24,9 @@ class PlateauTest {
         int score1 = 4;
         int score2 = 1;
 
-        if(score1 > tabScore1[0])
-        {
-            tabScore1[0] = score1;
-            Arrays.sort(tabScore1);
-        }
+        tabScore1[0] = score1;
+        Arrays.sort(tabScore1);
 
-        if(score2 > tabScore2[0])
-        {
-            tabScore2[0] = score2;
-            Arrays.sort(tabScore2);
-        }
 
         assertArrayEquals(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, tabScore1);
         assertArrayEquals(new int[]{3, 3, 3, 4, 5, 6, 7, 8, 9, 10}, tabScore2);
@@ -118,5 +110,13 @@ class PlateauTest {
         var f2 = new Plateau(15, 15 - 5, 2);
         assertEquals(1, f1.getLevel());
         assertEquals(2, f2.getLevel());
+    }
+
+    @Test
+    @DisplayName("Test du getter nScore")
+    void getNScore() {
+        var f1 = new Plateau(10, 10, 1);
+
+        assertEquals(10, f1.getNScore());
     }
 }

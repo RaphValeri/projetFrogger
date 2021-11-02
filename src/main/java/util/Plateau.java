@@ -169,4 +169,8 @@ public class Plateau {
         return level;
     }
 
+    public int getNScore() {
+        return nScore;
+    }
+
 }

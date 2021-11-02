@@ -170,9 +170,10 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
                     int[] tabScore = plateau.recupererPartie("test.txt");   //Affiche les meilleurs scores.
 
-                    for(int k = 0; k < tabScore.length; ++k)
+                    System.out.println("Les " + plateau.getNScore() + " meilleurs scores.");
+                    for(int k = tabScore.length - 1; k >= 0; --k)
                     {
-                        System.out.println(10 - k + ". " + tabScore[k]);
+                        System.out.println(10 - k + ".   " + tabScore[k]);
                     }
 
 
