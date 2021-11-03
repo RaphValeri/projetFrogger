@@ -26,7 +26,7 @@ import frog.Frog;
 
 
 /**
- * Classe qui gère l'IHM du jeu Frogger
+ * Classe qui gere l'IHM du jeu Frogger
  */
 public class App extends Application implements IFroggerGraphics, Voiture, Camion {
 
@@ -56,8 +56,8 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
     @Override
     /**
-     * Définition de la méthode abstraite de la classe Application
-     * Création de la fenêtre principale du jeu Frogger
+     * Definition de la methode abstraite de la classe Application
+     * Creation de la fenetre principale du jeu Frogger
      *
      * @param stage
      *              Stage de l'application
@@ -231,10 +231,12 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
 
             /**
-             * Méthode appelée lors de l'appui sur une touche du clavier
-             * Elle permet de faire évoluer la position de la grenouille selon la touche utilisée par le joueur
+             * Methode appelee lors de l'appui sur une touche du clavier
+             * Elle permet de faire evoluer la position de la grenouille selon la touche utilisee par le joueur
              * @param e
-             *          Evénement d'action sur une touche du clavier
+             *          Evenement d'action sur une touche du clavier
+             * @exception IllegalArgumentException
+             *                                      Exception levee si le joueur utilise une touche du clavier autre que les fleches
              */
             private void KeyPressed(KeyEvent e) {
                 String code = e.getCode().toString();
@@ -260,11 +262,11 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     /**
      *Retourne l'image de la grenouille
      * @param dx
-     *          largeur souhaitée de l'image
+     *          largeur souhaitee de l'image
      * @param dy
-     *          hauteur souhaitée de l'image
+     *          hauteur souhaitee de l'image
      * @return Image de la grenouille
-     * @throws Exception Exception levée en cas de ressource non valide
+     * @throws Exception Exception levee en cas de ressource non valide
      */
     public Image imageFrog(int dx, int dy) throws Exception{
         try {
@@ -285,11 +287,11 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     /**
      * Chargement de l'image de fond
      * @param dx
-     *          largeur souhaitée de l'image
+     *          largeur souhaitee de l'image
      * @param dy
-     *          hauteur souhaitée de l'image
+     *          hauteur souhaitee de l'image
      * @return Image de fond
-     * @throws Exception Exception levée lorsque la ressource est mal renseignée
+     * @throws Exception Exception levee lorsque la ressource est mal renseignée
      */
     public Image imageBackground(int dx, int dy) throws Exception
     {
@@ -309,12 +311,12 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     * Chargement d'une image de véhicule
-     * @param res path de l'image à charger
-     * @param dx  largeur souhaitée pour l'image
-     * @param dy  hauteur souhaitée pour l'image
-     * @return Image d'un véhicule
-     * @throws Exception Exception levée en cas de ressource non valide
+     * Chargement d'une image de vehicule
+     * @param res path de l'image a charger
+     * @param dx  largeur souhaitee pour l'image
+     * @param dy  hauteur souhaitee pour l'image
+     * @return Image d'un vehicule
+     * @throws Exception Exception levee en cas de ressource non valide
      */
     public Image imageVehicules(String res, int dx, int dy) throws Exception
     {
@@ -336,7 +338,7 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     /**
      * Rotation de 180° d'une image
      * @param img Image à laquelle on souhaite faire effectuer uen rotation
-     * @return image qui a effectuée une rotation de 180°
+     * @return image qui a effectue une rotation de 180°
      */
     public Image rotate(Image img) {
         ImageView IV = new ImageView();
@@ -348,7 +350,7 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     * Arrêt des animations pour les vehicules arrivés à la fin de la voie
+     * Arret des animations pour les vehicules arrives à la fin de la voie
      */
     private void actu_timelines(){
         for(int i=0; i<voies.length; i++){
@@ -368,8 +370,8 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     * Ajout d'une animation (timeline) sur les voies qui peuvent contenir un vehicule de plus avec une probabilité
-     * définie dans la classe Voie avec le booléen passage.
+     * Ajout d'une animation (timeline) sur les voies qui peuvent contenir un vehicule de plus avec une probabilite
+     * definie dans la classe Voie avec le booléen passage.
      * @see Voie
      */
     private void actualisation(){
@@ -396,9 +398,9 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
 
 
     /**
-     * Création d'une Timeline pour un véhicule sur une voie
+     * Creation d'une Timeline pour un vehicule sur une voie
      * @param i indice de la voie
-     * @param vehicule vehicule auquel est associée la Timeline
+     * @param vehicule vehicule auquel est associee la Timeline
      */
     private void creation_timeline(int i, int vehicule){
         Timeline timeline;
@@ -460,8 +462,8 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
     }
 
     /**
-     * Méthode qui met à jour les booléen indiquant la possibilité d'une création d'un autre véhicule
-     * sur une même voie
+     * Methode qui met à jour les booleen indiquant la possibilite d'une creation d'un autre vehicule
+     * sur une meme voie
      * @param x position de la voiture sur la voie i
      * @param i voie
      * @param vehicule le vehicule actuellement sur la voie

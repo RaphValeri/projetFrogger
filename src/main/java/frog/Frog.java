@@ -25,7 +25,7 @@ public class Frog {
     }
 
     /**
-     * Getter de la position de la grenouille : permet d'accéder à la valeur de cette variable d'instance
+     * Getter de la position de la grenouille : permet d'acceder à la valeur de cette variable d'instance
      * @return position de la grenouille
      */
     public int[] getPosition() { return this.position; }
@@ -40,7 +40,7 @@ public class Frog {
     public void setPosition(int a, int b) { this.position = new int[]{a, b}; }
 
     /**
-     * Getter de life : permet d'accéder à la variable d'instance life
+     * Getter de life : permet d'acceder à la variable d'instance life
      * @return la valeur de life
      */
     public int getLife() { return this.life; }
@@ -67,7 +67,7 @@ public class Frog {
 
 
     /**
-     * Méthode de représentation des données de la grenouille
+     * Methode de representation des donnees de la grenouille
      * @return  Informations sur la grenouille
      */
     public String toString() {

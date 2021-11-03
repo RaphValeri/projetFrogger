@@ -22,7 +22,7 @@ public class Plateau {
      * @param hauteur
      *              Nombres de voies + 2 pour les trottoirs
      * @param level
-     *              Niveau de la partie à laquelle le plateau est associée
+     *              Niveau de la partie à laquelle le plateau est associee
      */
     public Plateau(int largeur, int hauteur, int level)
     {
@@ -51,7 +51,7 @@ public class Plateau {
      * enregistrerPartie enregistre un nouveau score parmi les meilleurs scores precedement obtenus.
      * @param
      * file (chemin du fichier).
-     * score (score de la partie).
+     * @param score (score de la partie).
      */
     public void enregistrerPartie(String file, int score)
     {
@@ -70,9 +70,9 @@ public class Plateau {
      * enregistrerScore enregistre un tableau des scores.
      * @param
      * file (chemin du fichier).
-     * tab (tableau des scores).
+     * @param tab (tableau des scores).
      * @return
-     * 0 si tout s'est passe correctement, 1 si une erreur a ete detecte.
+     * 0 si tout s'est passe correctement, 1 si une erreur a ete detectee.
      */
     public int enregistrerScore(String file, int[] tab) {
 
