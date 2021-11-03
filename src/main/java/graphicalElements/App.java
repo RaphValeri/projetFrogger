@@ -379,7 +379,7 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
             //Parcours de chaque voie
             if(!voies[i].is_timeline & !voies[i].voiture2){
                 //S'il n'y a pas de timeline pr la voiture 1 et que la voiture 2 n'empeche pas la 1
-                if(voies[i].passage()){
+                if(voies[i].passage(plateau.getLevel())){
                     //Ajout d'une timeline avec une probabilité définie par le booléen passage
                     voies[i].is_timeline = true;
                     creation_timeline(i, 1);
@@ -387,7 +387,7 @@ public class App extends Application implements IFroggerGraphics, Voiture, Camio
             };
             if(!voies[i].is_timeline2 & !voies[i].voiture1){
                 //S'il n'y a pas une 2eme timeline et que le vehicule 1 n'empêche pas la création d'un autre
-                if(voies[i].passage()){
+                if(voies[i].passage(plateau.getLevel())){
                     //Ajout d'une autre timeline avec une probabilité définie par le booléen passage
                     voies[i].is_timeline2 = true;
                     creation_timeline(i, 2);

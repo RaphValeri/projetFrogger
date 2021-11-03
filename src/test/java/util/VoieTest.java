@@ -60,13 +60,26 @@ class VoieTest {
     void passage() {
         float c_true = 0;
         float c_false = 0;
-        Voie v = new Voie("Voie 1", 1, 1, 1);
+        Voie v1 = new Voie("Voie 1", 1, 1, 1);
         for(int i=0; i<1000; i++){
-            if(v.passage()) c_true += 1;
+            if(v1.passage(1)) c_true += 1;
+            else c_false +=1;
+        }
+        assertFalse(c_true / c_false > 0.014);
+        assertFalse(c_true / c_false < 0.002);
+
+        c_true = 0;
+        c_false = 0;
+
+        Voie v2 = new Voie("Voie 1", 1, 1, 1);
+        for(int i=0; i<1000; i++){
+            if(v2.passage(101)) c_true += 1;
             else c_false +=1;
         }
         assertFalse(c_true / c_false > 0.018);
         assertFalse(c_true / c_false < 0.002);
+
+
 
     }
 

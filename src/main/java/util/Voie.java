@@ -84,10 +84,17 @@ public class Voie implements Voiture, Camion{
      * @return
      * True si un vehicule apparait, sinon False.
      */
-    public Boolean passage()
+    public Boolean passage(int level)
     {
         double d = Math.random();
 
-        return d < 0.01;
+        if(level > 100)
+        {
+            return d < 0.01;
+        }
+        else
+        {
+            return d < 0.008 + 0.002 * ((float)level / 100);
+        }
     }
 }
