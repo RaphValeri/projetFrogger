@@ -65,8 +65,8 @@ class VoieTest {
             if(v1.passage(1)) c_true += 1;
             else c_false +=1;
         }
-        assertFalse(c_true / c_false > 0.014);
-        assertFalse(c_true / c_false < 0.002);
+        assertFalse(c_true / c_false > 0.01);
+        assertFalse(c_true / c_false < 0.001);
 
         c_true = 0;
         c_false = 0;

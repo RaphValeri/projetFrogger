@@ -94,7 +94,7 @@ public class Voie implements Voiture, Camion{
         }
         else
         {
-            return d < 0.008 + 0.002 * ((float)level / 100);
+            return d < 0.005 + 0.005 * ((float)level / 100);
         }
     }
 }
