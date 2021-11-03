@@ -4,7 +4,7 @@ import java.util.Arrays;
 import util.Direction;
 
 /**
- * Classe qui définie les caractéristiques de la grenouille
+ * Classe qui definie les caracteristiques de la grenouille
  */
 public class Frog {
     private int[] position;

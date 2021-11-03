@@ -81,6 +81,7 @@ public class Voie implements Voiture, Camion{
 
     /**
      * passage indique si un nouveau vehicule apparait dans la voie.
+     * @param level niveau de la partie a laquelle appartient la voie
      * @return
      * True si un vehicule apparait, sinon False.
      */

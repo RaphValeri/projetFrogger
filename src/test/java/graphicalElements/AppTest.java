@@ -18,9 +18,7 @@ class AppTest {
 
     @Test
     void imageFrog() throws Exception {
-        App app = new App();
-        Image im = app.imageFrog(500/6, 500/10);
-        //assertNotNull(im);
+
         
     }
 
@@ -34,7 +32,6 @@ class AppTest {
 
     @Test
     void main() throws Exception {
-        App app = new App();
-        //value = app.main();
+
     }
 }
